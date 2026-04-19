@@ -2,185 +2,104 @@ import React, { useState, useEffect } from "react";
 import { motion, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
 
 /* ─────────────────────────────────────────────
+   LIGHT THEME TOKENS
+───────────────────────────────────────────── */
+const LT = {
+  bg:          "#f5f3ee",
+  surface:     "#ffffff",
+  border:      "rgba(0,0,0,0.07)",
+  text:        "#1a1814",
+  textMuted:   "#6b6860",
+  amber:       "#d97706",
+  shadow:      "0 2px 12px rgba(0,0,0,0.07)",
+  shadowMd:    "0 8px 28px rgba(0,0,0,0.10)",
+};
+
+/* ─────────────────────────────────────────────
    ANIMATION VARIANTS
 ───────────────────────────────────────────── */
-
 const containerVariants = {
   hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.13,
-      delayChildren: 0.2,
-    },
-  },
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
 };
 
 const headerVariants = {
   hidden: { opacity: 0, x: -40 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  },
+  show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 };
 
-/* Each card: slides up from below + fades in */
 const cardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 60,
-    scale: 0.82,
-    rotateX: 18,
-    filter: "blur(6px)",
-  },
+  hidden: { opacity: 0, y: 50, scale: 0.86, filter: "blur(5px)" },
   show: (i) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    rotateX: 0,
-    filter: "blur(0px)",
+    opacity: 1, y: 0, scale: 1, filter: "blur(0px)",
     transition: {
-      delay: i * 0.11,
-      duration: 0.65,
+      delay: i * 0.09,
+      duration: 0.6,
       ease: [0.22, 1, 0.36, 1],
-      opacity: { duration: 0.5 },
-      filter: { duration: 0.4 },
+      opacity: { duration: 0.45 },
+      filter: { duration: 0.35 },
     },
   }),
-  exit: {
-    opacity: 0,
-    scale: 0.9,
-    y: -20,
-    transition: { duration: 0.3 },
-  },
+  exit: { opacity: 0, scale: 0.92, y: -16, transition: { duration: 0.25 } },
 };
 
-/* Emoji pops in after card */
 const emojiVariants = {
-  hidden: { scale: 0, rotate: -30, opacity: 0 },
+  hidden: { scale: 0, rotate: -25, opacity: 0 },
   show: (i) => ({
-    scale: 1,
-    rotate: 0,
-    opacity: 1,
-    transition: {
-      delay: i * 0.11 + 0.3,
-      type: "spring",
-      stiffness: 350,
-      damping: 16,
-    },
+    scale: 1, rotate: 0, opacity: 1,
+    transition: { delay: i * 0.09 + 0.28, type: "spring", stiffness: 360, damping: 16 },
   }),
 };
 
-/* Accent underline sweeps in */
 const underlineVariants = {
   hidden: { scaleX: 0, originX: 0 },
   show: (i) => ({
     scaleX: 1,
-    transition: {
-      delay: i * 0.11 + 0.45,
-      duration: 0.4,
-      ease: "easeOut",
-    },
+    transition: { delay: i * 0.09 + 0.42, duration: 0.38, ease: "easeOut" },
   }),
 };
 
-/* Spotlight shimmer sweep over card */
 const shimmerVariants = {
   hidden: { x: "-100%", opacity: 0 },
   show: (i) => ({
-    x: "200%",
-    opacity: [0, 0.35, 0],
-    transition: {
-      delay: i * 0.11 + 0.2,
-      duration: 0.7,
-      ease: "easeInOut",
-    },
+    x: "220%",
+    opacity: [0, 0.5, 0],
+    transition: { delay: i * 0.09 + 0.18, duration: 0.65, ease: "easeInOut" },
   }),
 };
 
-/* Label text reveal character by character (word by word) */
 const labelContainerVariants = {
   hidden: {},
-  show: (i) => ({
-    transition: { staggerChildren: 0.07, delayChildren: i * 0.11 + 0.35 },
-  }),
+  show: (i) => ({ transition: { staggerChildren: 0.06, delayChildren: i * 0.09 + 0.32 } }),
 };
 const wordVariants = {
-  hidden: { opacity: 0, y: 8 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.3, ease: "easeOut" },
-  },
+  hidden: { opacity: 0, y: 7 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.28, ease: "easeOut" } },
 };
 
 /* ─────────────────────────────────────────────
    DATA
 ───────────────────────────────────────────── */
-
 const services = [
-  {
-    image: "/corporatetravel.png",
-    label: "Corporate & Business Travel",
-    accent: "#F5B800",
-    emoji: "🏢",
-  },
-  {
-    image: "/wedding.png",
-    label: "Wedding & Event Transport",
-    accent: "#F472B6",
-    emoji: "💒",
-  },
-  {
-    image: "/localtrips.png",
-    label: "Local Trips",
-    accent: "#4ADE80",
-    emoji: "📍",
-  },
-  {
-    image: "/outstationtrips.png",
-    label: "Outstation Trips",
-    accent: "#60A5FA",
-    emoji: "✈️",
-  },
-  {
-    image: "/monthlycontractservices.png",
-    label: "Monthly Contract Services",
-    accent: "#FB923C",
-    emoji: "📅",
-  },
-  {
-    image: "/valetparking.png",
-    label: "Valet Parking Services",
-    accent: "#A78BFA",
-    emoji: "🅿️",
-  },
-  {
-    image: "/actingdriverservices.png",
-    label: "Acting Driver Services",
-    accent: "#2DD4BF",
-    emoji: "👨‍✈️",
-  },
-  {
-    image: "/tempocoachbusservices.png",
-    label: "Tempo / Coach / Bus Services",
-    accent: "#F5B800",
-    emoji: "🚌",
-  },
+  { image: "/corporatetravel.png",         label: "Corporate & Business Travel",  accent: "#0ea5e9", emoji: "🏢" },
+  { image: "/wedding.png",                 label: "Wedding & Event Transport",    accent: "#ec4899", emoji: "💒" },
+  { image: "/localtrips.png",              label: "Local Trips",                  accent: "#16a34a", emoji: "📍" },
+  { image: "/outstationtrips.png",         label: "Outstation Trips",             accent: "#7c3aed", emoji: "✈️" },
+  { image: "/monthlycontractservices.png", label: "Monthly Contract Services",    accent: "#ea580c", emoji: "📅" },
+  { image: "/valetparking.png",            label: "Valet Parking Services",       accent: "#d97706", emoji: "🅿️" },
+  { image: "/actingdriverservices.png",    label: "Acting Driver Services",       accent: "#0d9488", emoji: "👨‍✈️" },
+  { image: "/tempocoachbusservices.png",   label: "Tempo / Coach / Bus Services", accent: "#dc2626", emoji: "🚌" },
 ];
 
 /* ─────────────────────────────────────────────
-   3D TILT CARD (mouse-follow)
+   3D TILT CARD
 ───────────────────────────────────────────── */
 function TiltCard({ children, accent, index }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-60, 60], [10, -10]);
-  const rotateY = useTransform(x, [-80, 80], [-10, 10]);
-
+  const rotateX = useTransform(y, [-60, 60], [8, -8]);
+  const rotateY = useTransform(x, [-80, 80], [-8, 8]);
   const [hovered, setHovered] = useState(false);
-  const [imgError, setImgError] = useState(false);
-  const svc = services[index];
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -188,14 +107,12 @@ function TiltCard({ children, accent, index }) {
     y.set(e.clientY - rect.top - rect.height / 2);
   };
   const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-    setHovered(false);
+    x.set(0); y.set(0); setHovered(false);
   };
 
   return (
     <motion.div
-      style={{ perspective: 800 }}
+      style={{ perspective: 900 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={() => setHovered(true)}
@@ -208,19 +125,15 @@ function TiltCard({ children, accent, index }) {
           rotateX,
           rotateY,
           transformStyle: "preserve-3d",
-          border: hovered
-            ? `1px solid ${accent}65`
-            : "1px solid rgba(255,255,255,0.07)",
-          background: `linear-gradient(135deg, ${accent}18 0%, rgba(22,22,22,0.97) 60%)`,
+          border: `1.5px solid ${hovered ? accent + "55" : LT.border}`,
+          background: LT.surface,
           boxShadow: hovered
-            ? `0 0 32px ${accent}28, 0 8px 32px rgba(0,0,0,0.5)`
-            : "0 4px 20px rgba(0,0,0,0.4)",
+            ? `0 16px 40px ${accent}28, 0 4px 16px rgba(0,0,0,0.09)`
+            : LT.shadowMd,
         }}
-        animate={{
-          scale: hovered ? 1.04 : 1,
-          transition: { type: "spring", stiffness: 260, damping: 20 },
-        }}
-        className="relative rounded-2xl overflow-hidden flex flex-col h-full cursor-default transition-colors duration-200"
+        animate={{ scale: hovered ? 1.04 : 1 }}
+        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+        className="relative rounded-2xl overflow-hidden flex flex-col h-full cursor-default"
       >
         {children}
 
@@ -230,18 +143,18 @@ function TiltCard({ children, accent, index }) {
           variants={shimmerVariants}
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: `linear-gradient(105deg, transparent 40%, ${accent}55 50%, transparent 60%)`,
+            background: `linear-gradient(105deg, transparent 38%, ${accent}40 50%, transparent 62%)`,
             zIndex: 10,
           }}
         />
 
-        {/* Hover inner glow */}
+        {/* Hover top glow */}
         <motion.div
           animate={{ opacity: hovered ? 1 : 0 }}
           transition={{ duration: 0.3 }}
           className="absolute inset-0 pointer-events-none rounded-2xl"
           style={{
-            background: `radial-gradient(ellipse at 50% 0%, ${accent}14 0%, transparent 70%)`,
+            background: `radial-gradient(ellipse at 50% 0%, ${accent}12 0%, transparent 65%)`,
             zIndex: 3,
           }}
         />
@@ -251,7 +164,7 @@ function TiltCard({ children, accent, index }) {
 }
 
 /* ─────────────────────────────────────────────
-   ACTIVE CARD SPOTLIGHT INDICATOR
+   ACTIVE DOT
 ───────────────────────────────────────────── */
 function ActiveDot({ accent, visible }) {
   return (
@@ -263,7 +176,7 @@ function ActiveDot({ accent, visible }) {
           exit={{ scale: 0, opacity: 0 }}
           transition={{ type: "spring", stiffness: 400, damping: 20 }}
           className="absolute top-2 left-2 w-2 h-2 rounded-full z-20"
-          style={{ backgroundColor: accent, boxShadow: `0 0 8px ${accent}` }}
+          style={{ backgroundColor: accent, boxShadow: `0 0 8px ${accent}90` }}
         />
       )}
     </AnimatePresence>
@@ -277,123 +190,116 @@ export default function Slide03() {
   const [activeCard, setActiveCard] = useState(null);
   const [allVisible, setAllVisible] = useState(false);
 
-  /* After all cards finish animating, mark complete */
   useEffect(() => {
     const timer = setTimeout(
       () => setAllVisible(true),
-      200 + services.length * 130 + 650
+      200 + services.length * 100 + 650
     );
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="w-full h-full bg-taxi-black relative overflow-hidden flex flex-col">
-      {/* ── Ambient glows ────────────────────────────── */}
-      <motion.div
-        animate={{ scale: [1, 1.12, 1], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[-8%] right-[-5%] w-[480px] h-[480px] rounded-full blur-3xl pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(245,184,0,0.08) 0%, transparent 70%)",
-        }}
+    <div
+      className="w-full h-full relative overflow-hidden flex flex-col"
+      style={{ background: LT.bg }}
+    >
+      {/* Ambient blobs */}
+      <div className="absolute top-[-12%] right-[-8%] w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(217,119,6,0.10) 0%, transparent 70%)", filter: "blur(70px)" }}
       />
-      <motion.div
-        animate={{ scale: [1, 1.08, 1], opacity: [0.5, 0.9, 0.5] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-        className="absolute bottom-[-5%] left-[-5%] w-[400px] h-[400px] rounded-full blur-3xl pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(circle, rgba(245,184,0,0.06) 0%, transparent 70%)",
-        }}
+      <div className="absolute bottom-[-10%] left-[-6%] w-[440px] h-[440px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(14,165,233,0.09) 0%, transparent 70%)", filter: "blur(60px)" }}
+      />
+      <div className="absolute top-[35%] left-[38%] w-[360px] h-[360px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%)", filter: "blur(55px)" }}
       />
 
-      {/* Subtle grid overlay */}
+      {/* Dot pattern */}
       <div
-        className="absolute inset-0 opacity-[0.022] pointer-events-none"
+        className="absolute inset-0 opacity-[0.45] pointer-events-none"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(245,184,0,1) 1px, transparent 1px), linear-gradient(90deg, rgba(245,184,0,1) 1px, transparent 1px)",
-          backgroundSize: "70px 70px",
+          backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.055) 1px, transparent 1px)",
+          backgroundSize: "30px 30px",
         }}
       />
 
-      {/* ── MAIN CONTENT ─────────────────────────────── */}
+      {/* MAIN CONTENT */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="relative z-10 flex flex-col h-full px-8 md:px-14 pt-7 pb-16"
+        className="relative z-10 flex flex-col h-full px-8 md:px-14 pt-6 pb-14"
       >
-        {/* ── HEADER ──────────────────────────────────── */}
-        <motion.div variants={headerVariants} className="mb-5 flex-shrink-0">
-          {/* Pill label */}
+        {/* HEADER */}
+        <motion.div variants={headerVariants} className="mb-4 flex-shrink-0">
           <motion.div
-            initial={{ opacity: 0, y: -12 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05, duration: 0.45 }}
+            transition={{ delay: 0.05, duration: 0.4 }}
             className="inline-flex items-center gap-2 mb-2"
           >
             <motion.div
               animate={{ scaleX: [0, 1] }}
               transition={{ delay: 0.1, duration: 0.4, ease: "easeOut" }}
-              className="h-[2px] w-8 bg-taxi-yellow/50 rounded origin-left"
+              className="h-[2px] w-8 rounded origin-left"
+              style={{ background: LT.amber + "88" }}
             />
-            <p className="font-accent uppercase tracking-[8px] text-taxi-yellow/55 text-xs md:text-sm">
+            <p
+              className="font-accent uppercase tracking-[8px] font-semibold"
+              style={{ color: LT.amber, fontSize: "clamp(9px, 1vw, 13px)" }}
+            >
               What We Offer
             </p>
             <motion.div
               animate={{ scaleX: [0, 1] }}
               transition={{ delay: 0.2, duration: 0.4, ease: "easeOut" }}
-              className="h-[2px] w-8 bg-taxi-yellow/50 rounded origin-left"
+              className="h-[2px] w-8 rounded origin-left"
+              style={{ background: LT.amber + "88" }}
             />
           </motion.div>
 
-          {/* Heading letter-by-letter */}
           <div className="overflow-hidden">
             <motion.h2
               initial={{ y: "105%" }}
               animate={{ y: 0 }}
-              transition={{ delay: 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display text-taxi-yellow leading-none"
-              style={{ fontSize: "clamp(48px, 9vw, 100px)" }}
+              transition={{ delay: 0.12, duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display leading-none"
+              style={{ fontSize: "clamp(44px, 8vw, 96px)", color: LT.text }}
             >
-              OUR SERVICES
+              OUR{" "}
+              <span style={{ WebkitTextStroke: `2.5px ${LT.amber}`, color: "transparent" }}>
+                SERVICES
+              </span>
             </motion.h2>
           </div>
 
-          {/* Animated underline */}
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ delay: 0.4, duration: 0.5, ease: "easeOut" }}
-            className="w-20 h-[3px] bg-taxi-yellow rounded mt-2 origin-left"
+            transition={{ delay: 0.38, duration: 0.5, ease: "easeOut" }}
+            className="w-20 h-[4px] rounded-full mt-2 origin-left"
+            style={{ background: `linear-gradient(90deg, ${LT.amber}, transparent)` }}
           />
         </motion.div>
 
-        {/* ── 4×2 SERVICE GRID ─────────────────────────── */}
+        {/* 4×2 SERVICE GRID */}
         <div
           className="flex-1 grid grid-cols-4 grid-rows-2 gap-3 min-h-0"
           style={{ perspective: "1200px" }}
         >
           {services.map((svc, i) => (
             <TiltCard key={i} accent={svc.accent} index={i}>
-              {/* Active dot */}
               <ActiveDot accent={svc.accent} visible={activeCard === i} />
 
-              {/* Image fills top portion */}
+              {/* Image — fills full card top, NO cream overlay */}
               <div className="relative w-full flex-1 overflow-hidden min-h-0">
                 <motion.img
                   src={svc.image}
                   alt={svc.label}
                   loading="lazy"
-                  initial={{ scale: 1.15, opacity: 0 }}
+                  initial={{ scale: 1.14, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{
-                    delay: i * 0.11 + 0.25,
-                    duration: 0.7,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
+                  transition={{ delay: i * 0.09 + 0.22, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
                   className="w-full h-full object-cover"
                   style={{ display: "block" }}
                   onError={(e) => {
@@ -406,60 +312,59 @@ export default function Slide03() {
                 {/* Emoji fallback */}
                 <div
                   className="absolute inset-0 items-center justify-center text-5xl"
-                  style={{ display: "none", background: `${svc.accent}12` }}
+                  style={{ display: "none", background: `${svc.accent}15` }}
                 >
                   {svc.emoji}
                 </div>
 
-                {/* Gradient overlay */}
+                {/* ✅ Thin dark scrim ONLY at very bottom — just enough for text legibility */}
                 <div
                   className="absolute inset-0 pointer-events-none"
                   style={{
-                    background: `linear-gradient(
-                      to bottom,
-                      transparent 30%,
-                      rgba(17,17,17,0.5) 62%,
-                      rgba(17,17,17,0.95) 100%
-                    )`,
+                    background: "linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.52) 100%)",
                   }}
                 />
 
-                {/* Emoji badge — top right with spring pop */}
+                {/* Emoji badge — top right */}
                 <motion.div
                   custom={i}
                   variants={emojiVariants}
                   className="absolute top-2 right-2 w-8 h-8 rounded-lg flex items-center justify-center text-base z-10"
                   style={{
-                    background: "rgba(0,0,0,0.6)",
-                    backdropFilter: "blur(5px)",
-                    border: `1px solid ${svc.accent}35`,
+                    background: "rgba(255,255,255,0.85)",
+                    backdropFilter: "blur(6px)",
+                    border: `1px solid ${svc.accent}30`,
+                    boxShadow: `0 2px 8px ${svc.accent}22`,
                   }}
                 >
                   {svc.emoji}
                 </motion.div>
 
-                {/* Number badge — bottom left */}
+                {/* Number badge — bottom left, white on the dark scrim */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: i * 0.11 + 0.55, duration: 0.3 }}
-                  className="absolute bottom-8 left-2 font-display text-2xl leading-none z-10"
-                  style={{ color: `${svc.accent}55` }}
+                  transition={{ delay: i * 0.09 + 0.52, duration: 0.3 }}
+                  className="absolute bottom-7 left-2 font-display leading-none z-10"
+                  style={{
+                    fontSize: "clamp(18px, 2.2vw, 28px)",
+                    color: "rgba(255,255,255,0.45)",
+                  }}
                 >
                   {String(i + 1).padStart(2, "0")}
                 </motion.div>
               </div>
 
-              {/* Label + accent bar */}
+              {/* Label + underline — white card strip below image */}
               <div
                 className="flex-shrink-0 px-3 pb-3 pt-2 relative z-10"
                 style={{
-                  background: `linear-gradient(to bottom, transparent, rgba(15,15,15,0.99))`,
+                  background: LT.surface,                        // ✅ solid white strip
+                  borderTop: `1px solid ${svc.accent}18`,
                 }}
                 onMouseEnter={() => setActiveCard(i)}
                 onMouseLeave={() => setActiveCard(null)}
               >
-                {/* Word-by-word label reveal */}
                 <motion.div
                   custom={i}
                   variants={labelContainerVariants}
@@ -471,9 +376,9 @@ export default function Slide03() {
                       variants={wordVariants}
                       className="font-body font-bold leading-snug"
                       style={{
-                        fontSize: "clamp(10px, 1.2vw, 14px)",
-                        color: activeCard === i ? svc.accent : "#F0F0F0",
-                        transition: "color 0.25s ease",
+                        fontSize: "clamp(10px, 1.1vw, 13px)",
+                        color: activeCard === i ? svc.accent : LT.text,
+                        transition: "color 0.22s ease",
                       }}
                     >
                       {word}
@@ -481,23 +386,19 @@ export default function Slide03() {
                   ))}
                 </motion.div>
 
-                {/* Animated accent underline */}
                 <motion.div
                   custom={i}
                   variants={underlineVariants}
-                  className="mt-1.5 h-[2px] w-7 rounded-full"
-                  style={{
-                    backgroundColor: svc.accent,
-                    transformOrigin: "left",
-                  }}
+                  className="mt-1.5 h-[2.5px] w-7 rounded-full"
+                  style={{ backgroundColor: svc.accent, transformOrigin: "left" }}
                 />
               </div>
 
               {/* Corner glow */}
               <motion.div
                 animate={{
-                  opacity: activeCard === i ? 0.25 : 0.1,
-                  scale: activeCard === i ? 1.15 : 1,
+                  opacity: activeCard === i ? 0.18 : 0.07,
+                  scale: activeCard === i ? 1.2 : 1,
                 }}
                 transition={{ duration: 0.35 }}
                 className="absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl pointer-events-none"
@@ -507,31 +408,30 @@ export default function Slide03() {
           ))}
         </div>
 
-        {/* ── FOOTER NOTE ──────────────────────────────── */}
+        {/* FOOTER */}
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: services.length * 0.11 + 0.8, duration: 0.5 }}
-          className="flex-shrink-0 mt-3 font-body text-taxi-muted text-xs md:text-sm text-center"
+          transition={{ delay: services.length * 0.09 + 0.75, duration: 0.5 }}
+          className="flex-shrink-0 mt-3 font-body text-center font-medium"
+          style={{ color: LT.textMuted, fontSize: "clamp(10px, 1.1vw, 13px)" }}
         >
-          End-to-end travel solutions for personal, corporate & event
-          transportation needs
+          End-to-end travel solutions for personal, corporate & event transportation needs
         </motion.p>
       </motion.div>
 
-      {/* ── ALL-VISIBLE PULSE: subtle flash when all cards loaded ── */}
+      {/* Flash on load complete */}
       <AnimatePresence>
         {allVisible && (
           <motion.div
             key="flash"
-            initial={{ opacity: 0.18 }}
+            initial={{ opacity: 0.15 }}
             animate={{ opacity: 0 }}
             exit={{}}
-            transition={{ duration: 0.7, ease: "easeOut" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
             className="absolute inset-0 pointer-events-none z-30"
             style={{
-              background:
-                "radial-gradient(ellipse at 50% 50%, rgba(245,184,0,0.14) 0%, transparent 65%)",
+              background: "radial-gradient(ellipse at 50% 50%, rgba(217,119,6,0.10) 0%, transparent 65%)",
             }}
           />
         )}

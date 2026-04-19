@@ -3,6 +3,21 @@ import { motion } from "framer-motion";
 import useCountUp from "../../hooks/useCountUp";
 import { MdTrendingUp, MdCurrencyRupee, MdBarChart } from "react-icons/md";
 
+/* ─── Light Theme Tokens ─── */
+const LT = {
+  bg:        "#f5f3ee",
+  surface:   "#ffffff",
+  text:      "#1a1814",
+  textMuted: "#6b6860",
+  textFaint: "#b0ada8",
+  amber:     "#d97706",
+  amberLight:"#f59e0b",
+  amberBg:   "#fef3c7",
+  divider:   "rgba(0,0,0,0.07)",
+  shadowMd:  "0 8px 28px rgba(0,0,0,0.09)",
+  shadowLg:  "0 16px 44px rgba(0,0,0,0.13)",
+};
+
 const container = {
   hidden: {},
   show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
@@ -13,28 +28,39 @@ const item = {
 };
 
 const revenues = [
-  { label: "Commission per ride",   val: "₹30–80",   note: "12–15% of fare" },
-  { label: "Monthly Subscriptions", val: "₹499/mo",  note: "Corporate accounts" },
-  { label: "Driver Listing Fee",    val: "₹999/yr",  note: "App onboarding" },
-  { label: "Valet/Event Packages",  val: "₹5K–50K",  note: "Per event" },
-  { label: "In-app Advertisement",  val: "₹10K+/mo", note: "Local businesses" },
+  { label: "Commission per ride",   val: "₹30–80",   note: "12–15% of fare",      accent: "#d97706", accentBg: "#fef3c7" },
+  { label: "Monthly Subscriptions", val: "₹499/mo",  note: "Corporate accounts",   accent: "#2563eb", accentBg: "#dbeafe" },
+  { label: "Driver Listing Fee",    val: "₹999/yr",  note: "App onboarding",       accent: "#7c3aed", accentBg: "#ede9fe" },
+  { label: "Valet/Event Packages",  val: "₹5K–50K",  note: "Per event",            accent: "#16a34a", accentBg: "#dcfce7" },
+  { label: "In-app Advertisement",  val: "₹10K+/mo", note: "Local businesses",     accent: "#0d9488", accentBg: "#ccfbf1" },
 ];
 
 const projections = [
-  { year: "Year 1", rides: 36000,  rev: "₹32L",    drivers: 80,  color: "#F5B800" },
-  { year: "Year 2", rides: 90000,  rev: "₹78L",    drivers: 160, color: "#FFD84D" },
-  { year: "Year 3", rides: 180000, rev: "₹1.6 Cr", drivers: 300, color: "#E0A800" },
+  { year: "Year 1", rides: 36000,  rev: "₹32L",    drivers: 80,  accent: "#d97706", accentBg: "#fef3c7",  barPct: 20  },
+  { year: "Year 2", rides: 90000,  rev: "₹78L",    drivers: 160, accent: "#2563eb", accentBg: "#dbeafe",  barPct: 50  },
+  { year: "Year 3", rides: 180000, rev: "₹1.6 Cr", drivers: 300, accent: "#16a34a", accentBg: "#dcfce7",  barPct: 100 },
 ];
 
-function BarVis({ pct, color, delay }) {
+function BarVis({ pct, accent, accentBg, delay }) {
   return (
     <motion.div
       initial={{ height: 0 }}
       animate={{ height: `${pct}%` }}
       transition={{ duration: 1, delay, ease: [0.22, 1, 0.36, 1] }}
-      className="w-full rounded-t-md"
-      style={{ background: color, minHeight: 4 }}
-    />
+      className="w-full rounded-t-lg relative overflow-hidden"
+      style={{ background: accentBg, border: `1.5px solid ${accent}30`, minHeight: 4 }}
+    >
+      {/* Solid fill strip at bottom */}
+      <div
+        className="absolute bottom-0 left-0 right-0 rounded-t-md"
+        style={{ height: "30%", background: accent, opacity: 0.5 }}
+      />
+      {/* Top accent glow */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[3px] rounded-t-lg"
+        style={{ background: accent }}
+      />
+    </motion.div>
   );
 }
 
@@ -42,32 +68,67 @@ export default function Slide14() {
   const totalRev = useCountUp(166, 2000);
 
   return (
-    <div className="w-full h-full bg-taxi-black relative overflow-hidden flex flex-col">
-      {/* Background blobs */}
-      <div className="absolute top-[-10%] right-[-8%] w-96 h-96 bg-taxi-yellow/5 rounded-full blur-3xl animate-float-slow pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-8%] w-80 h-80 bg-green-500/5 rounded-full blur-3xl animate-float pointer-events-none" />
+    <div
+      className="w-full h-full relative overflow-hidden flex flex-col"
+      style={{ background: LT.bg }}
+    >
+      {/* Ambient blobs */}
+      <div className="absolute top-[-10%] right-[-8%] w-96 h-96 rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(217,119,6,0.10) 0%, transparent 70%)", filter: "blur(70px)" }}
+      />
+      <div className="absolute bottom-[-10%] left-[-8%] w-80 h-80 rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(22,163,74,0.08) 0%, transparent 70%)", filter: "blur(65px)" }}
+      />
+      <div className="absolute top-[45%] left-[40%] w-72 h-72 rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 70%)", filter: "blur(60px)" }}
+      />
+
+      {/* Dot pattern */}
+      <div
+        className="absolute inset-0 opacity-40 pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.055) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+        }}
+      />
 
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative z-10 flex flex-col w-full h-full pt-4 px-4 pb-12 md:pt-5 md:px-5 md:pb-14 gap-3"
+        className="relative z-10 flex flex-col w-full h-full pt-4 px-4 pb-4 md:pt-5 md:px-5 md:pb-5 gap-3"
       >
         {/* ── HEADER ── */}
         <motion.div variants={item} className="flex-shrink-0">
-          <p
-            className="font-accent uppercase tracking-[5px] text-taxi-yellow/65 leading-tight"
-            style={{ fontSize: "clamp(11px, 1.4vw, 18px)" }}
-          >
-            🏦 Bank Loan Proposal — Slide 4 of 5
-          </p>
+          <div className="inline-flex items-center gap-2 mb-1">
+            <div className="h-[2px] w-5 rounded" style={{ background: LT.amber + "80" }} />
+            <p
+              className="font-accent uppercase font-semibold tracking-[5px]"
+              style={{ fontSize: "clamp(10px, 1.2vw, 14px)", color: LT.amber }}
+            >
+              🏦 Bank Loan Proposal — Slide 4 of 5
+            </p>
+          </div>
           <h2
-            className="font-display text-taxi-yellow leading-none mt-1"
-            style={{ fontSize: "clamp(36px, 6.5vw, 82px)" }}
+            className="font-display leading-none mt-0.5"
+            style={{ fontSize: "clamp(34px, 6vw, 78px)", color: LT.text }}
           >
-            REVENUE MODEL
+            REVENUE{" "}
+            <span style={{ WebkitTextStroke: `2.5px ${LT.amber}`, color: "transparent" }}>
+              MODEL
+            </span>
           </h2>
-          <div className="w-16 h-[3px] bg-taxi-yellow rounded mt-2" />
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.3, duration: 0.5, ease: "easeOut" }}
+            className="rounded-full mt-2 origin-left"
+            style={{
+              width: "clamp(48px, 5vw, 64px)",
+              height: "3.5px",
+              background: `linear-gradient(90deg, ${LT.amber}, transparent)`,
+            }}
+          />
         </motion.div>
 
         {/* ── BODY GRID ── */}
@@ -76,53 +137,89 @@ export default function Slide14() {
           {/* ── LEFT: Revenue Streams (2/5) ── */}
           <motion.div
             variants={item}
-            className="col-span-2 glass-card rounded-2xl overflow-hidden flex flex-col min-h-0"
+            className="col-span-2 rounded-2xl overflow-hidden flex flex-col min-h-0"
+            style={{
+              background: LT.surface,
+              border: `1.5px solid ${LT.amber}22`,
+              boxShadow: LT.shadowMd,
+            }}
           >
             {/* Card header */}
             <div
-              className="px-4 py-2.5 flex-shrink-0 border-b border-taxi-border flex items-center gap-2"
-              style={{ background: "rgba(245,184,0,0.09)" }}
+              className="px-4 py-2.5 flex-shrink-0 flex items-center gap-2 relative"
+              style={{
+                background: `linear-gradient(90deg, ${LT.amber}12, transparent)`,
+                borderBottom: `1.5px solid ${LT.divider}`,
+              }}
             >
-              <MdCurrencyRupee className="text-taxi-yellow flex-shrink-0" size={22} />
+              {/* Amber top bar */}
+              <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ background: LT.amber }} />
+              <div
+                className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                style={{ background: LT.amberBg, color: LT.amber }}
+              >
+                <MdCurrencyRupee size={18} />
+              </div>
               <span
-                className="font-body font-bold text-taxi-yellow"
-                style={{ fontSize: "clamp(13px, 1.6vw, 20px)" }}
+                className="font-body font-bold"
+                style={{ fontSize: "clamp(13px, 1.5vw, 19px)", color: LT.text }}
               >
                 Revenue Streams
               </span>
             </div>
 
-            {/* Rows — fill evenly */}
-            <div className="flex-1 flex flex-col divide-y divide-taxi-border min-h-0 overflow-hidden">
+            {/* Rows */}
+            <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
               {revenues.map((r, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, x: -15 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.18 + i * 0.08 }}
-                  className="flex items-center justify-between px-4 flex-1"
-                  style={{ minHeight: 0 }}
+                  className="flex items-center justify-between px-4 flex-1 relative"
+                  style={{
+                    minHeight: 0,
+                    borderBottom: i < revenues.length - 1 ? `1px solid ${LT.divider}` : "none",
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = `${r.accent}06`}
+                  onMouseLeave={e => e.currentTarget.style.background = "transparent"}
                 >
+                  {/* Left accent dot */}
+                  <div
+                    className="absolute left-0 top-0 bottom-0 w-[3px]"
+                    style={{ background: r.accent, opacity: 0 }}
+                    ref={el => {
+                      if (el) {
+                        el.parentElement.addEventListener("mouseenter", () => el.style.opacity = "1");
+                        el.parentElement.addEventListener("mouseleave", () => el.style.opacity = "0");
+                      }
+                    }}
+                  />
                   <div>
                     <div
-                      className="font-body text-taxi-light/90 leading-tight"
-                      style={{ fontSize: "clamp(12px, 1.35vw, 18px)" }}
+                      className="font-body leading-tight font-semibold"
+                      style={{ fontSize: "clamp(11px, 1.25vw, 16px)", color: LT.text }}
                     >
                       {r.label}
                     </div>
                     <div
-                      className="font-body text-taxi-muted leading-tight"
-                      style={{ fontSize: "clamp(10px, 1.1vw, 15px)" }}
+                      className="font-body leading-tight"
+                      style={{ fontSize: "clamp(10px, 1vw, 13px)", color: LT.textFaint }}
                     >
                       {r.note}
                     </div>
                   </div>
-                  <div
-                    className="font-body font-bold text-taxi-yellow text-right flex-shrink-0 ml-2"
-                    style={{ fontSize: "clamp(13px, 1.5vw, 20px)" }}
+                  <span
+                    className="font-body font-bold text-right flex-shrink-0 ml-2 px-2.5 py-0.5 rounded-full"
+                    style={{
+                      fontSize: "clamp(12px, 1.35vw, 18px)",
+                      color: r.accent,
+                      background: r.accentBg,
+                      border: `1px solid ${r.accent}28`,
+                    }}
                   >
                     {r.val}
-                  </div>
+                  </span>
                 </motion.div>
               ))}
             </div>
@@ -134,36 +231,45 @@ export default function Slide14() {
             {/* Bar chart card */}
             <motion.div
               variants={item}
-              className="glass-card rounded-2xl px-4 pt-3 pb-4 flex flex-col flex-shrink-0"
+              className="rounded-2xl px-4 pt-3 pb-4 flex flex-col flex-shrink-0 relative overflow-hidden"
+              style={{
+                background: LT.surface,
+                border: `1.5px solid ${LT.amber}22`,
+                boxShadow: LT.shadowMd,
+              }}
             >
-              <div className="flex items-center gap-2 mb-3">
-                <MdBarChart className="text-taxi-yellow flex-shrink-0" size={22} />
+              <div className="absolute top-0 left-0 right-0 h-[3px]" style={{ background: LT.amber }} />
+
+              <div className="flex items-center gap-2 mb-3 mt-1">
+                <div
+                  className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style={{ background: LT.amberBg, color: LT.amber }}
+                >
+                  <MdBarChart size={18} />
+                </div>
                 <span
-                  className="font-body font-bold text-taxi-yellow"
-                  style={{ fontSize: "clamp(13px, 1.6vw, 20px)" }}
+                  className="font-body font-bold"
+                  style={{ fontSize: "clamp(13px, 1.5vw, 19px)", color: LT.text }}
                 >
                   3-Year Revenue Projection
                 </span>
               </div>
+
               <div className="flex items-end justify-around gap-4" style={{ height: 120 }}>
                 {projections.map((p, i) => (
                   <div key={i} className="flex-1 flex flex-col items-center gap-1">
                     <span
-                      className="font-body font-bold text-taxi-yellow"
-                      style={{ fontSize: "clamp(12px, 1.3vw, 17px)" }}
+                      className="font-body font-bold"
+                      style={{ fontSize: "clamp(11px, 1.2vw, 16px)", color: p.accent }}
                     >
                       {p.rev}
                     </span>
                     <div className="w-full flex flex-col justify-end" style={{ height: 80 }}>
-                      <BarVis
-                        pct={i === 0 ? 20 : i === 1 ? 50 : 100}
-                        color={p.color}
-                        delay={0.4 + i * 0.15}
-                      />
+                      <BarVis accent={p.accent} accentBg={p.accentBg} pct={p.barPct} delay={0.4 + i * 0.15} />
                     </div>
                     <span
-                      className="font-body text-taxi-muted"
-                      style={{ fontSize: "clamp(11px, 1.2vw, 16px)" }}
+                      className="font-body font-semibold"
+                      style={{ fontSize: "clamp(10px, 1.1vw, 14px)", color: LT.textMuted }}
                     >
                       {p.year}
                     </span>
@@ -175,18 +281,29 @@ export default function Slide14() {
             {/* Projection table */}
             <motion.div
               variants={item}
-              className="glass-card rounded-2xl overflow-hidden flex flex-col flex-1 min-h-0"
+              className="rounded-2xl overflow-hidden flex flex-col flex-1 min-h-0"
+              style={{
+                background: LT.surface,
+                border: `1.5px solid ${LT.divider}`,
+                boxShadow: LT.shadowMd,
+              }}
             >
               {/* Table header */}
               <div
-                className="grid grid-cols-4 px-4 py-2 flex-shrink-0 border-b border-taxi-border text-center"
-                style={{ background: "rgba(245,184,0,0.09)" }}
+                className="grid grid-cols-4 px-4 py-2.5 flex-shrink-0 text-center"
+                style={{
+                  background: `linear-gradient(90deg, ${LT.amber}10, transparent)`,
+                  borderBottom: `1.5px solid ${LT.divider}`,
+                }}
               >
-                {["Year", "Rides/Yr", "Revenue", "Drivers"].map((h) => (
+                {["Year", "Rides/Yr", "Revenue", "Drivers"].map((h, i) => (
                   <span
                     key={h}
-                    className="font-body text-taxi-yellow font-bold"
-                    style={{ fontSize: "clamp(12px, 1.35vw, 18px)" }}
+                    className="font-body font-bold uppercase tracking-wide"
+                    style={{
+                      fontSize: "clamp(10px, 1.2vw, 15px)",
+                      color: i === 0 ? LT.amber : LT.textMuted,
+                    }}
                   >
                     {h}
                   </span>
@@ -194,37 +311,53 @@ export default function Slide14() {
               </div>
 
               {/* Table rows */}
-              <div className="flex-1 flex flex-col divide-y divide-taxi-border min-h-0 overflow-hidden">
+              <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
                 {projections.map((p, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 + i * 0.1 }}
-                    className="grid grid-cols-4 px-4 text-center items-center flex-1 hover:bg-taxi-yellow/[0.04] transition-colors"
-                    style={{ minHeight: 0 }}
+                    className="grid grid-cols-4 px-4 text-center items-center flex-1 transition-colors duration-150"
+                    style={{
+                      minHeight: 0,
+                      borderBottom: i < projections.length - 1 ? `1px solid ${LT.divider}` : "none",
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.background = `${p.accent}07`}
+                    onMouseLeave={e => e.currentTarget.style.background = "transparent"}
                   >
+                    {/* Year */}
                     <span
-                      className="font-body font-bold"
-                      style={{ color: p.color, fontSize: "clamp(13px, 1.45vw, 19px)" }}
+                      className="font-body font-bold px-2 py-0.5 rounded-full inline-block"
+                      style={{
+                        fontSize: "clamp(12px, 1.3vw, 17px)",
+                        color: p.accent,
+                        background: p.accentBg,
+                      }}
                     >
                       {p.year}
                     </span>
+
+                    {/* Rides */}
                     <span
-                      className="font-body text-taxi-light/80"
-                      style={{ fontSize: "clamp(12px, 1.3vw, 17px)" }}
+                      className="font-body tabular-nums"
+                      style={{ fontSize: "clamp(11px, 1.2vw, 15px)", color: LT.textMuted }}
                     >
                       {p.rides.toLocaleString()}
                     </span>
+
+                    {/* Revenue */}
                     <span
-                      className="font-body text-green-400 font-bold"
-                      style={{ fontSize: "clamp(12px, 1.3vw, 17px)" }}
+                      className="font-body font-bold"
+                      style={{ fontSize: "clamp(12px, 1.3vw, 17px)", color: "#16a34a" }}
                     >
                       {p.rev}
                     </span>
+
+                    {/* Drivers */}
                     <span
-                      className="font-body text-taxi-light/80"
-                      style={{ fontSize: "clamp(12px, 1.3vw, 17px)" }}
+                      className="font-body tabular-nums"
+                      style={{ fontSize: "clamp(11px, 1.2vw, 15px)", color: LT.textMuted }}
                     >
                       {p.drivers}
                     </span>
@@ -236,24 +369,49 @@ export default function Slide14() {
             {/* 3-yr total callout */}
             <motion.div
               variants={item}
-              className="rounded-xl px-5 py-3 flex items-center justify-between flex-shrink-0"
+              className="rounded-xl px-5 py-3 flex items-center justify-between flex-shrink-0 relative overflow-hidden"
               style={{
-                background: "linear-gradient(135deg,rgba(245,184,0,0.18),rgba(245,184,0,0.06))",
-                border: "1px solid rgba(245,184,0,0.35)",
+                background: LT.surface,
+                border: `1.5px solid ${LT.amber}35`,
+                boxShadow: `0 4px 20px ${LT.amber}18`,
               }}
             >
-              <div className="flex items-center gap-2">
-                <MdTrendingUp className="text-green-400 flex-shrink-0" size={24} />
+              {/* Amber left bar */}
+              <div
+                className="absolute left-0 top-0 bottom-0 w-[4px] rounded-r-full"
+                style={{ background: `linear-gradient(to bottom, ${LT.amber}, ${LT.amberLight})` }}
+              />
+
+              {/* Ambient glow */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: `radial-gradient(ellipse at 0% 50%, ${LT.amber}0c 0%, transparent 60%)`,
+                }}
+              />
+
+              <div className="flex items-center gap-2 relative z-10">
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style={{ background: "#dcfce7", color: "#16a34a" }}
+                >
+                  <MdTrendingUp size={20} />
+                </div>
                 <span
-                  className="font-body text-taxi-light/85 font-medium"
-                  style={{ fontSize: "clamp(13px, 1.5vw, 20px)" }}
+                  className="font-body font-semibold"
+                  style={{ fontSize: "clamp(13px, 1.4vw, 18px)", color: LT.textMuted }}
                 >
                   Cumulative 3-Year Revenue
                 </span>
               </div>
+
               <div
-                className="font-display text-taxi-yellow leading-none"
-                style={{ fontSize: "clamp(28px, 4.5vw, 58px)" }}
+                className="font-display leading-none relative z-10"
+                style={{
+                  fontSize: "clamp(26px, 4vw, 54px)",
+                  color: LT.amber,
+                  filter: `drop-shadow(0 2px 8px ${LT.amber}30)`,
+                }}
               >
                 ₹{totalRev}L+
               </div>

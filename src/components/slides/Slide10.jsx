@@ -3,6 +3,20 @@ import { motion } from "framer-motion";
 import { MdPhone, MdEmail, MdLocationOn } from "react-icons/md";
 import { FaWhatsapp, FaTaxi } from "react-icons/fa";
 
+/* ─── Light Theme Tokens ─── */
+const LT = {
+  bg:        "#f5f3ee",
+  surface:   "#ffffff",
+  text:      "#1a1814",
+  textMuted: "#6b6860",
+  textFaint: "#b0ada8",
+  amber:     "#d97706",
+  amberBg:   "#fef3c7",
+  border:    "rgba(0,0,0,0.07)",
+  shadowMd:  "0 8px 28px rgba(0,0,0,0.09)",
+  shadowLg:  "0 16px 44px rgba(0,0,0,0.13)",
+};
+
 const container = {
   hidden: {},
   show: { transition: { staggerChildren: 0.1, delayChildren: 0.08 } },
@@ -14,36 +28,40 @@ const item = {
 
 const contacts = [
   {
-    icon: <MdPhone size={26} />,
+    icon: <MdPhone size={24} />,
     label: "Phone",
     value: "80123 57078",
     link: "tel:8012357078",
-    bg: "#1a1a1a",
-    iconColor: "#F5B800",
+    iconColor: "#d97706",
+    iconBg:    "#fef3c7",
+    accent:    "#d97706",
   },
   {
-    icon: <FaWhatsapp size={26} />,
+    icon: <FaWhatsapp size={24} />,
     label: "WhatsApp",
     value: "80123 57078",
     link: "https://wa.me/918012357078",
-    bg: "#1a1a1a",
-    iconColor: "#25D366",
+    iconColor: "#16a34a",
+    iconBg:    "#dcfce7",
+    accent:    "#16a34a",
   },
   {
-    icon: <MdEmail size={26} />,
+    icon: <MdEmail size={24} />,
     label: "Email",
     value: "periyaselvaraj@gmail.com",
     link: "mailto:periyaselvaraj@gmail.com",
-    bg: "#1a1a1a",
-    iconColor: "#EA4335",
+    iconColor: "#dc2626",
+    iconBg:    "#fee2e2",
+    accent:    "#dc2626",
   },
   {
-    icon: <MdLocationOn size={26} />,
+    icon: <MdLocationOn size={24} />,
     label: "Address",
     value: "6, Nengaiyar Thottam, Kolumpalayam,\nPoolpannai Road, Erode – 638002",
     link: "https://maps.google.com/?q=Erode,Tamil+Nadu",
-    bg: "#1a1a1a",
-    iconColor: "#4285F4",
+    iconColor: "#2563eb",
+    iconBg:    "#dbeafe",
+    accent:    "#2563eb",
   },
 ];
 
@@ -58,59 +76,73 @@ const services = [
 
 export default function Slide10() {
   return (
-    <div className="w-full h-full bg-taxi-yellow relative overflow-hidden flex items-stretch">
+    <div
+      className="w-full h-full relative overflow-hidden flex items-stretch"
+      style={{ background: LT.bg }}
+    >
+      {/* Ambient blobs */}
+      <div className="absolute top-[-12%] right-[-8%] w-72 h-72 rounded-full opacity-80 pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(217,119,6,0.12) 0%, transparent 70%)", filter: "blur(60px)" }}
+      />
+      <div className="absolute bottom-[-12%] left-[-6%] w-80 h-80 rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(37,99,235,0.09) 0%, transparent 70%)", filter: "blur(65px)" }}
+      />
+      <div className="absolute top-[35%] left-[2%] w-44 h-44 rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)", filter: "blur(50px)" }}
+      />
 
-      {/* ── Decorative blobs ── */}
-      <div className="absolute top-[-12%] right-[-8%] w-72 h-72 bg-taxi-yellow-dark rounded-full opacity-35 animate-float-slow pointer-events-none" />
-      <div className="absolute bottom-[-12%] left-[-6%] w-80 h-80 bg-taxi-yellow-dark rounded-full opacity-25 animate-float pointer-events-none" />
-      <div className="absolute top-[35%] left-[2%] w-44 h-44 bg-white rounded-full opacity-10 animate-float-slow pointer-events-none" />
-
-      {/* ── Dot pattern ── */}
+      {/* Dot pattern */}
       <div
-        className="absolute inset-0 opacity-[0.07] pointer-events-none"
+        className="absolute inset-0 opacity-40 pointer-events-none"
         style={{
-          backgroundImage: "radial-gradient(circle, #000 1.2px, transparent 1.2px)",
+          backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.055) 1px, transparent 1px)",
           backgroundSize: "24px 24px",
         }}
       />
 
-      {/* ── MAIN CONTENT ── */}
+      {/* MAIN CONTENT */}
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
         className="relative z-10 w-full flex flex-col px-5 md:px-8 py-4 md:py-5 gap-4"
       >
-
         {/* ── HEADER ── */}
         <motion.div variants={item} className="flex items-center justify-center gap-3">
           <FaTaxi
-            className="text-taxi-black animate-bounce-gentle flex-shrink-0"
-            style={{ fontSize: "clamp(32px, 5vw, 52px)" }}
+            className="flex-shrink-0"
+            style={{ fontSize: "clamp(30px, 5vw, 50px)", color: LT.amber }}
           />
           <div>
             <h2
-              className="font-display text-taxi-black leading-none"
-              style={{ fontSize: "clamp(48px, 9vw, 108px)" }}
+              className="font-display leading-none"
+              style={{ fontSize: "clamp(44px, 8.5vw, 104px)", color: LT.text }}
             >
-              CONTACT US
+              CONTACT{" "}
+              <span style={{ WebkitTextStroke: `2.5px ${LT.amber}`, color: "transparent" }}>
+                US
+              </span>
             </h2>
             <p
-              className="font-body text-taxi-black/65 font-semibold leading-tight"
-              style={{ fontSize: "clamp(11px, 1.6vw, 17px)" }}
+              className="font-body font-semibold leading-tight"
+              style={{ fontSize: "clamp(11px, 1.5vw, 16px)", color: LT.textMuted }}
             >
               Corporate • Events • Airport Trips • Bulk Bookings
             </p>
           </div>
         </motion.div>
 
-        {/* ── DIVIDER ── */}
-        <motion.div variants={item} className="w-full h-[2px] bg-taxi-black/15 rounded-full" />
+        {/* DIVIDER */}
+        <motion.div
+          variants={item}
+          className="w-full rounded-full"
+          style={{ height: "1.5px", background: `linear-gradient(90deg, transparent, ${LT.amber}50, transparent)` }}
+        />
 
-        {/* ── GRID: Left contacts | Right CTA ── */}
+        {/* GRID: Left contacts | Right CTA */}
         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 min-h-0">
 
-          {/* ── LEFT: Contact Cards ── */}
+          {/* LEFT: Contact Cards */}
           <motion.div variants={item} className="flex flex-col gap-2.5">
             {contacts.map((c, i) => (
               <motion.a
@@ -118,79 +150,114 @@ export default function Slide10() {
                 href={c.link || undefined}
                 target={c.link ? "_blank" : undefined}
                 rel="noopener noreferrer"
-                whileHover={c.link ? { x: 5, scale: 1.015 } : {}}
+                whileHover={c.link ? { x: 4, scale: 1.012 } : {}}
                 whileTap={c.link ? { scale: 0.98 } : {}}
                 className="flex items-center gap-4 rounded-2xl px-4 py-3 transition-all duration-200"
                 style={{
-                  background: "rgba(0,0,0,0.10)",
-                  border: "1.5px solid rgba(0,0,0,0.13)",
-                  backdropFilter: "blur(6px)",
+                  background: LT.surface,
+                  border: `1.5px solid ${c.accent}22`,
+                  boxShadow: LT.shadowMd,
                   cursor: c.link ? "pointer" : "default",
+                  textDecoration: "none",
+                  position: "relative",
+                  overflow: "hidden",
                 }}
               >
+                {/* Accent left bar */}
+                <div
+                  className="absolute left-0 top-0 bottom-0 w-[3px] rounded-r-full"
+                  style={{ background: c.accent }}
+                />
+
                 {/* Icon badge */}
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md"
-                  style={{ background: c.bg }}
+                  className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{
+                    background: c.iconBg,
+                    border: `1.5px solid ${c.accent}30`,
+                    color: c.iconColor,
+                    boxShadow: `0 3px 10px ${c.accent}18`,
+                  }}
                 >
-                  <span style={{ color: c.iconColor }}>{c.icon}</span>
+                  {c.icon}
                 </div>
 
                 {/* Text */}
                 <div className="min-w-0">
                   <div
-                    className="font-accent text-taxi-black/55 uppercase tracking-widest"
-                    style={{ fontSize: "clamp(9px, 1vw, 11px)" }}
+                    className="font-accent uppercase tracking-widest font-semibold"
+                    style={{ fontSize: "clamp(8px, 0.9vw, 10px)", color: LT.textFaint }}
                   >
                     {c.label}
                   </div>
                   <div
-                    className="font-body font-bold text-taxi-black leading-snug whitespace-pre-line"
-                    style={{ fontSize: "clamp(13px, 1.8vw, 18px)" }}
+                    className="font-body font-bold leading-snug whitespace-pre-line"
+                    style={{ fontSize: "clamp(12px, 1.6vw, 17px)", color: LT.text }}
                   >
                     {c.value}
                   </div>
                 </div>
 
-                {/* Arrow indicator for links */}
+                {/* Arrow */}
                 {c.link && (
-                  <div className="ml-auto text-taxi-black/30 flex-shrink-0 text-lg">›</div>
+                  <div
+                    className="ml-auto flex-shrink-0 text-lg font-bold"
+                    style={{ color: c.accent + "80" }}
+                  >
+                    ›
+                  </div>
                 )}
               </motion.a>
             ))}
           </motion.div>
 
-          {/* ── RIGHT: CTA Panel ── */}
+          {/* RIGHT: CTA Panel */}
           <motion.div variants={item} className="flex flex-col gap-3">
 
-            {/* Big number CTA */}
+            {/* Big number CTA card */}
             <div
               className="flex-1 rounded-2xl flex flex-col items-center justify-center text-center px-5 py-5 relative overflow-hidden"
               style={{
-                background: "linear-gradient(145deg, #111111 0%, #1c1c1c 100%)",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
+                background: LT.text,
+                boxShadow: LT.shadowLg,
               }}
             >
-              {/* Subtle yellow glow */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-32 bg-taxi-yellow/8 rounded-full blur-3xl pointer-events-none" />
+              {/* Subtle amber glow behind number */}
+              <div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-32 rounded-full pointer-events-none"
+                style={{ background: `${LT.amber}12`, filter: "blur(40px)" }}
+              />
+
+              {/* Dot pattern overlay */}
+              <div
+                className="absolute inset-0 opacity-[0.04] pointer-events-none"
+                style={{
+                  backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+                  backgroundSize: "22px 22px",
+                }}
+              />
 
               <p
-                className="font-accent text-taxi-yellow/60 uppercase tracking-[5px] relative z-10"
-                style={{ fontSize: "clamp(9px, 1vw, 12px)" }}
+                className="font-accent uppercase tracking-[5px] relative z-10"
+                style={{ fontSize: "clamp(9px, 1vw, 12px)", color: `${LT.amber}99` }}
               >
                 Available 24 / 7
               </p>
 
               <div
-                className="font-display text-taxi-yellow leading-none my-2 relative z-10 animate-glow"
-                style={{ fontSize: "clamp(38px, 7vw, 80px)" }}
+                className="font-display leading-none my-2 relative z-10"
+                style={{
+                  fontSize: "clamp(34px, 6.5vw, 76px)",
+                  color: LT.amber,
+                  filter: `drop-shadow(0 0 20px ${LT.amber}50)`,
+                }}
               >
                 80123 57078
               </div>
 
               <p
-                className="font-body text-white/40 relative z-10"
-                style={{ fontSize: "clamp(10px, 1.2vw, 13px)" }}
+                className="font-body relative z-10"
+                style={{ fontSize: "clamp(10px, 1.1vw, 13px)", color: "rgba(255,255,255,0.35)" }}
               >
                 Call or WhatsApp anytime
               </p>
@@ -200,15 +267,17 @@ export default function Slide10() {
                 href="tel:8012357078"
                 whileHover={{ scale: 1.06 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative z-10 mt-4 inline-flex items-center gap-2 rounded-full font-body font-black text-taxi-black"
+                className="relative z-10 mt-4 inline-flex items-center gap-2 rounded-full font-body font-black"
                 style={{
-                  background: "linear-gradient(135deg, #F5B800 0%, #FFD84D 100%)",
-                  padding: "clamp(10px,1.5vw,14px) clamp(24px,3vw,40px)",
-                  fontSize: "clamp(13px, 1.6vw, 18px)",
-                  boxShadow: "0 4px 20px rgba(245,184,0,0.45)",
+                  background: `linear-gradient(135deg, ${LT.amber} 0%, #f59e0b 100%)`,
+                  color: "#fff",
+                  padding: "clamp(10px,1.4vw,14px) clamp(24px,3vw,40px)",
+                  fontSize: "clamp(12px, 1.5vw, 17px)",
+                  boxShadow: `0 4px 20px ${LT.amber}50`,
+                  textDecoration: "none",
                 }}
               >
-                <MdPhone size={20} />
+                <MdPhone size={19} />
                 CALL NOW
               </motion.a>
 
@@ -221,13 +290,14 @@ export default function Slide10() {
                 whileTap={{ scale: 0.95 }}
                 className="relative z-10 mt-2.5 inline-flex items-center gap-2 rounded-full font-body font-bold text-white"
                 style={{
-                  background: "#25D366",
-                  padding: "clamp(8px,1.2vw,12px) clamp(20px,2.5vw,34px)",
-                  fontSize: "clamp(12px, 1.4vw, 16px)",
-                  boxShadow: "0 4px 16px rgba(37,211,102,0.35)",
+                  background: "#16a34a",
+                  padding: "clamp(8px,1.1vw,12px) clamp(20px,2.5vw,34px)",
+                  fontSize: "clamp(11px, 1.3vw, 15px)",
+                  boxShadow: "0 4px 16px rgba(22,163,74,0.35)",
+                  textDecoration: "none",
                 }}
               >
-                <FaWhatsapp size={18} />
+                <FaWhatsapp size={17} />
                 WHATSAPP US
               </motion.a>
             </div>
@@ -236,51 +306,59 @@ export default function Slide10() {
             <div
               className="rounded-2xl px-4 py-3"
               style={{
-                background: "rgba(0,0,0,0.10)",
-                border: "1.5px solid rgba(0,0,0,0.13)",
+                background: LT.surface,
+                border: `1.5px solid ${LT.amber}22`,
+                boxShadow: LT.shadowMd,
               }}
             >
-              <p
-                className="font-accent text-taxi-black/55 uppercase tracking-[4px] mb-2"
-                style={{ fontSize: "clamp(9px, 1vw, 11px)" }}
-              >
-                We Handle
-              </p>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-4 h-[2px] rounded" style={{ background: LT.amber + "80" }} />
+                <p
+                  className="font-accent uppercase tracking-[4px] font-semibold"
+                  style={{ fontSize: "clamp(8px, 0.9vw, 11px)", color: LT.amber }}
+                >
+                  We Handle
+                </p>
+              </div>
               <div className="flex flex-wrap gap-1.5">
-                {services.map((s) => (
-                  <span
-                    key={s}
-                    className="font-body font-semibold text-taxi-black rounded-full"
-                    style={{
-                      background: "rgba(0,0,0,0.12)",
-                      border: "1px solid rgba(0,0,0,0.18)",
-                      padding: "clamp(4px,0.6vw,6px) clamp(10px,1.4vw,16px)",
-                      fontSize: "clamp(10px, 1.2vw, 13px)",
-                    }}
-                  >
-                    {s}
-                  </span>
-                ))}
+                {services.map((s, i) => {
+                  const tagAccents = ["#d97706","#16a34a","#2563eb","#dc2626","#7c3aed","#0d9488"];
+                  const tagBgs     = ["#fef3c7","#dcfce7","#dbeafe","#fee2e2","#ede9fe","#ccfbf1"];
+                  return (
+                    <span
+                      key={s}
+                      className="font-body font-semibold rounded-full"
+                      style={{
+                        background: tagBgs[i % tagBgs.length],
+                        border: `1px solid ${tagAccents[i % tagAccents.length]}28`,
+                        color: tagAccents[i % tagAccents.length],
+                        padding: "clamp(3px,0.5vw,6px) clamp(10px,1.3vw,15px)",
+                        fontSize: "clamp(9px, 1.1vw, 12px)",
+                      }}
+                    >
+                      {s}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </motion.div>
         </div>
 
-        {/* ── FOOTER STRIP ── */}
+        {/* FOOTER STRIP */}
         <motion.div
           variants={item}
           className="flex items-center justify-center gap-2 py-1"
         >
-          <div className="flex-1 h-[1px] bg-taxi-black/15 rounded" />
+          <div className="flex-1 h-px rounded" style={{ background: `${LT.amber}30` }} />
           <span
-            className="font-body text-taxi-black/50 font-semibold px-3"
-            style={{ fontSize: "clamp(9px, 1.1vw, 12px)" }}
+            className="font-body font-semibold px-3"
+            style={{ fontSize: "clamp(9px, 1vw, 12px)", color: LT.textFaint }}
           >
             PERIYAR TAXI — THE ECONOMIC CLASS — ERODE, TN
           </span>
-          <div className="flex-1 h-[1px] bg-taxi-black/15 rounded" />
+          <div className="flex-1 h-px rounded" style={{ background: `${LT.amber}30` }} />
         </motion.div>
-
       </motion.div>
     </div>
   );

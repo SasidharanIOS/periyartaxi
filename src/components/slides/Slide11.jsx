@@ -3,6 +3,21 @@ import { motion } from "framer-motion";
 import { MdSmartphone, MdTrendingUp, MdLocationOn, MdVerified } from "react-icons/md";
 import { FaTaxi } from "react-icons/fa";
 
+/* ─── Light Theme Tokens ─── */
+const LT = {
+  bg:        "#f5f3ee",
+  surface:   "#ffffff",
+  text:      "#1a1814",
+  textMuted: "#6b6860",
+  textFaint: "#b0ada8",
+  amber:     "#d97706",
+  amberLight:"#f59e0b",
+  amberBg:   "#fef3c7",
+  border:    "rgba(0,0,0,0.07)",
+  shadowMd:  "0 8px 28px rgba(0,0,0,0.09)",
+  shadowLg:  "0 16px 44px rgba(0,0,0,0.13)",
+};
+
 const container = {
   hidden: {},
   show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
@@ -17,36 +32,57 @@ const features = [
     icon: <MdSmartphone size={26} />,
     title: "Customer App",
     desc: "Book rides, choose service type, set pickup & drop via live map. Android & iOS.",
+    accent: "#d97706",
+    accentBg: "#fef3c7",
   },
   {
     icon: <FaTaxi size={24} />,
     title: "Driver App",
     desc: "Real-time bookings, map navigation, earnings & schedule management.",
+    accent: "#2563eb",
+    accentBg: "#dbeafe",
   },
   {
     icon: <MdVerified size={26} />,
     title: "Admin Dashboard",
     desc: "Fleet, bookings, billing, driver performance & full analytics control.",
+    accent: "#7c3aed",
+    accentBg: "#ede9fe",
   },
   {
     icon: <MdTrendingUp size={26} />,
     title: "Revenue Growth",
     desc: "App model drives 3–5× more bookings vs manual call-taxi operations.",
+    accent: "#16a34a",
+    accentBg: "#dcfce7",
   },
 ];
 
 export default function Slide11() {
   return (
-    <div className="w-full h-full bg-taxi-black relative overflow-hidden flex flex-col">
-      {/* BG glows */}
-      <div className="absolute top-[-10%] right-[-8%] w-[420px] h-[420px] bg-taxi-yellow/6 rounded-full blur-3xl animate-float-slow pointer-events-none" />
-      <div className="absolute bottom-[-8%] left-[-6%] w-[360px] h-[360px] bg-taxi-yellow/4 rounded-full blur-3xl animate-float pointer-events-none" />
+    <div
+      className="w-full h-full relative overflow-hidden flex flex-col"
+      style={{ background: LT.bg }}
+    >
+      {/* Ambient blobs */}
+      <div className="absolute top-[-10%] right-[-8%] w-[420px] h-[420px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(217,119,6,0.10) 0%, transparent 70%)", filter: "blur(70px)" }}
+      />
+      <div className="absolute bottom-[-8%] left-[-6%] w-[360px] h-[360px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)", filter: "blur(65px)" }}
+      />
+      <div className="absolute top-[40%] right-[35%] w-[280px] h-[280px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%)", filter: "blur(60px)" }}
+      />
+
+      {/* Grid pattern */}
       <div
-        className="absolute inset-0 opacity-[0.022] pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(245,184,0,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(245,184,0,0.5) 1px,transparent 1px)",
+            "linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)",
           backgroundSize: "55px 55px",
+          opacity: 0.6,
         }}
       />
 
@@ -54,37 +90,59 @@ export default function Slide11() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative z-10 flex flex-col flex-1 px-8 md:px-12 pt-6 pb-16"
+        className="relative z-10 flex flex-col flex-1 px-8 md:px-12 pt-6 pb-6"
       >
-        {/* ── TOP BADGE ── */}
+        {/* TOP BADGE */}
         <motion.div variants={item} className="mb-3">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-taxi-yellow/40 bg-taxi-yellow/10 font-body text-taxi-yellow font-bold uppercase tracking-widest text-sm md:text-base">
+          <span
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-body font-bold uppercase tracking-widest"
+            style={{
+              fontSize: "clamp(10px, 1vw, 13px)",
+              background: LT.amberBg,
+              border: `1.5px solid ${LT.amber}40`,
+              color: LT.amber,
+              boxShadow: `0 2px 10px ${LT.amber}18`,
+            }}
+          >
             🏦 Bank Loan Proposal — Slide 1 of 5
           </span>
         </motion.div>
 
-        {/* ── HEADING ── */}
+        {/* HEADING */}
         <motion.div variants={item} className="mb-4">
           <h2
-            className="font-display text-taxi-yellow leading-none tracking-wide"
-            style={{ fontSize: "clamp(52px, 9vw, 108px)" }}
+            className="font-display leading-none tracking-wide"
+            style={{ fontSize: "clamp(48px, 8.5vw, 104px)", color: LT.text }}
           >
-            MOBILE APP VISION
+            MOBILE APP{" "}
+            <span style={{ WebkitTextStroke: `2.5px ${LT.amber}`, color: "transparent" }}>
+              VISION
+            </span>
           </h2>
           <p
-            className="font-body text-taxi-light/70 mt-2 max-w-2xl leading-relaxed"
-            style={{ fontSize: "clamp(15px, 1.6vw, 20px)" }}
+            className="font-body mt-2 max-w-2xl leading-relaxed"
+            style={{ fontSize: "clamp(14px, 1.5vw, 19px)", color: LT.textMuted }}
           >
             Transforming Periyar Taxi from a regional call-taxi operator into a{" "}
-            <span className="text-taxi-yellow font-bold">
+            <span style={{ color: LT.amber, fontWeight: 700 }}>
               technology-driven ride-hailing platform
             </span>{" "}
             serving all of India.
           </p>
-          <div className="w-16 h-1.5 bg-taxi-yellow rounded mt-3" />
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.35, duration: 0.5, ease: "easeOut" }}
+            className="rounded-full mt-3 origin-left"
+            style={{
+              width: "clamp(48px, 5vw, 64px)",
+              height: "5px",
+              background: `linear-gradient(90deg, ${LT.amber}, transparent)`,
+            }}
+          />
         </motion.div>
 
-        {/* ── MAIN GRID ── */}
+        {/* MAIN GRID */}
         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-5 min-h-0">
 
           {/* LEFT — feature cards */}
@@ -92,24 +150,53 @@ export default function Slide11() {
             {features.map((pt, i) => (
               <motion.div
                 key={i}
-                whileHover={{ x: 5, borderColor: "rgba(245,184,0,0.45)" }}
-                className="flex items-start gap-4 glass-card rounded-2xl px-5 py-4 transition-all duration-200 flex-1"
+                whileHover={{ x: 5, scale: 1.012 }}
+                transition={{ type: "spring", stiffness: 260, damping: 22 }}
+                className="flex items-start gap-4 rounded-2xl px-5 py-4 flex-1 relative overflow-hidden"
+                style={{
+                  background: LT.surface,
+                  border: `1.5px solid ${pt.accent}22`,
+                  boxShadow: LT.shadowMd,
+                }}
               >
+                {/* Accent left bar */}
+                <div
+                  className="absolute left-0 top-0 bottom-0 w-[3px] rounded-r-full"
+                  style={{ background: pt.accent }}
+                />
+
+                {/* Subtle glow */}
+                <div
+                  className="absolute top-0 left-0 w-20 h-20 pointer-events-none"
+                  style={{
+                    background: `radial-gradient(circle at 0% 0%, ${pt.accent}0d 0%, transparent 70%)`,
+                  }}
+                />
+
                 {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-taxi-yellow/12 border border-taxi-yellow/25 flex items-center justify-center text-taxi-yellow flex-shrink-0">
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 relative z-10"
+                  style={{
+                    background: pt.accentBg,
+                    border: `1.5px solid ${pt.accent}30`,
+                    color: pt.accent,
+                    boxShadow: `0 3px 10px ${pt.accent}18`,
+                  }}
+                >
                   {pt.icon}
                 </div>
+
                 {/* Text */}
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 relative z-10">
                   <div
-                    className="font-body font-extrabold text-taxi-yellow leading-tight"
-                    style={{ fontSize: "clamp(16px, 1.5vw, 22px)" }}
+                    className="font-body font-extrabold leading-tight"
+                    style={{ fontSize: "clamp(14px, 1.4vw, 20px)", color: LT.text }}
                   >
                     {pt.title}
                   </div>
                   <div
-                    className="font-body text-taxi-light/65 mt-1 leading-relaxed"
-                    style={{ fontSize: "clamp(13px, 1.2vw, 17px)" }}
+                    className="font-body mt-1 leading-relaxed"
+                    style={{ fontSize: "clamp(12px, 1.1vw, 15px)", color: LT.textMuted }}
                   >
                     {pt.desc}
                   </div>
@@ -119,36 +206,36 @@ export default function Slide11() {
           </motion.div>
 
           {/* RIGHT — phone mockup */}
-          <motion.div
-            variants={item}
-            className="flex items-center justify-center"
-          >
+          <motion.div variants={item} className="flex items-center justify-center">
             <div className="relative" style={{ width: 240, height: 430 }}>
+
               {/* Phone frame */}
               <div
                 className="relative rounded-[36px] overflow-hidden h-full w-full"
                 style={{
-                  background: "#161616",
-                  border: "3.5px solid #F5B800",
-                  boxShadow:
-                    "0 0 50px rgba(245,184,0,0.3), 0 0 100px rgba(245,184,0,0.1)",
+                  background: LT.text,
+                  border: `3.5px solid ${LT.amber}`,
+                  boxShadow: `0 0 50px ${LT.amber}40, 0 20px 60px rgba(0,0,0,0.20)`,
                 }}
               >
                 {/* Status bar */}
-                <div className="w-full h-8 bg-taxi-yellow flex items-center justify-between px-4">
-                  <span className="font-body text-taxi-black text-[11px] font-extrabold">
+                <div
+                  className="w-full h-8 flex items-center justify-between px-4 flex-shrink-0"
+                  style={{ background: LT.amber }}
+                >
+                  <span
+                    className="font-body font-extrabold"
+                    style={{ fontSize: 11, color: "#fff" }}
+                  >
                     9:41
                   </span>
-                  <div className="w-16 h-3 bg-taxi-black/20 rounded-full" />
+                  <div className="w-16 h-3 rounded-full" style={{ background: "rgba(255,255,255,0.25)" }} />
                 </div>
 
                 {/* App screen */}
                 <div className="px-4 pt-3 pb-3 flex flex-col gap-2.5 h-full">
                   {/* App name */}
-                  <div
-                    className="font-body text-taxi-yellow font-extrabold"
-                    style={{ fontSize: 15 }}
-                  >
+                  <div className="font-body font-extrabold" style={{ fontSize: 15, color: LT.amber }}>
                     Periyar Taxi
                   </div>
 
@@ -157,35 +244,30 @@ export default function Slide11() {
                     className="rounded-2xl overflow-hidden relative flex-shrink-0"
                     style={{
                       height: 148,
-                      background: "linear-gradient(135deg,#162016,#1e2e12)",
+                      background: "linear-gradient(135deg, #1a2a1a, #0f1e2e)",
                     }}
                   >
-                    <svg
-                      width="100%"
-                      height="100%"
-                      className="absolute inset-0 opacity-35"
-                    >
-                      {/* Horizontal roads */}
+                    <svg width="100%" height="100%" className="absolute inset-0 opacity-40">
                       <rect x="0" y="34%" width="100%" height="10%" fill="#2a2a2a" />
                       <rect x="0" y="66%" width="100%" height="8%" fill="#2a2a2a" />
-                      {/* Vertical roads */}
                       <rect x="28%" y="0" width="10%" height="100%" fill="#2a2a2a" />
                       <rect x="62%" y="0" width="8%" height="100%" fill="#2a2a2a" />
-                      {/* Road yellow lines */}
-                      <line x1="0" y1="39%" x2="100%" y2="39%" stroke="#F5B800" strokeWidth="1" strokeDasharray="10,8" />
-                      <line x1="33%" y1="0" x2="33%" y2="100%" stroke="#F5B800" strokeWidth="1" strokeDasharray="8,8" />
-                      {/* Grid */}
-                      <line x1="0" y1="20%" x2="100%" y2="20%" stroke="#F5B800" strokeWidth="0.4" opacity="0.4" />
-                      <line x1="0" y1="75%" x2="100%" y2="75%" stroke="#F5B800" strokeWidth="0.4" opacity="0.4" />
-                      <line x1="55%" y1="0" x2="55%" y2="100%" stroke="#F5B800" strokeWidth="0.4" opacity="0.4" />
-                      <line x1="80%" y1="0" x2="80%" y2="100%" stroke="#F5B800" strokeWidth="0.4" opacity="0.4" />
+                      <line x1="0" y1="39%" x2="100%" y2="39%" stroke={LT.amber} strokeWidth="1" strokeDasharray="10,8" />
+                      <line x1="33%" y1="0" x2="33%" y2="100%" stroke={LT.amber} strokeWidth="1" strokeDasharray="8,8" />
+                      <line x1="0" y1="20%" x2="100%" y2="20%" stroke={LT.amber} strokeWidth="0.4" opacity="0.35" />
+                      <line x1="0" y1="75%" x2="100%" y2="75%" stroke={LT.amber} strokeWidth="0.4" opacity="0.35" />
+                      <line x1="55%" y1="0" x2="55%" y2="100%" stroke={LT.amber} strokeWidth="0.4" opacity="0.35" />
+                      <line x1="80%" y1="0" x2="80%" y2="100%" stroke={LT.amber} strokeWidth="0.4" opacity="0.35" />
                     </svg>
                     {/* Location pin */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full drop-shadow-lg">
-                      <MdLocationOn className="text-taxi-yellow" size={30} />
+                      <MdLocationOn style={{ color: LT.amber }} size={30} />
                     </div>
                     {/* Label */}
-                    <div className="absolute bottom-2.5 left-2.5 bg-black/75 rounded-lg px-2 py-1">
+                    <div
+                      className="absolute bottom-2.5 left-2.5 rounded-lg px-2 py-1"
+                      style={{ background: "rgba(0,0,0,0.70)" }}
+                    >
                       <span className="font-body text-white font-semibold" style={{ fontSize: 10 }}>
                         📍 Erode, TN
                       </span>
@@ -195,22 +277,22 @@ export default function Slide11() {
                   {/* Input fields */}
                   <div
                     className="rounded-xl p-2.5 flex flex-col gap-2"
-                    style={{ background: "#1e1e1e" }}
+                    style={{ background: "rgba(255,255,255,0.07)" }}
                   >
                     <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-green-400 flex-shrink-0" />
+                      <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: "#4ade80" }} />
                       <div
-                        className="flex-1 h-6 rounded-lg px-2 flex items-center font-body text-taxi-muted"
-                        style={{ background: "#2a2a2a", fontSize: 10 }}
+                        className="flex-1 h-6 rounded-lg px-2 flex items-center font-body"
+                        style={{ background: "rgba(255,255,255,0.08)", fontSize: 10, color: LT.textFaint }}
                       >
                         Pickup Location
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-taxi-yellow flex-shrink-0" />
+                      <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: LT.amber }} />
                       <div
-                        className="flex-1 h-6 rounded-lg px-2 flex items-center font-body text-taxi-muted"
-                        style={{ background: "#2a2a2a", fontSize: 10 }}
+                        className="flex-1 h-6 rounded-lg px-2 flex items-center font-body"
+                        style={{ background: "rgba(255,255,255,0.08)", fontSize: 10, color: LT.textFaint }}
                       >
                         Drop Location
                       </div>
@@ -222,9 +304,11 @@ export default function Slide11() {
                     {["Cab 🚗", "Innova 🚐", "Bus 🚌"].map((s) => (
                       <div
                         key={s}
-                        className="px-2.5 py-1 rounded-full border border-taxi-yellow/35 font-body font-semibold text-taxi-yellow"
+                        className="px-2.5 py-1 rounded-full font-body font-semibold"
                         style={{
-                          background: "rgba(245,184,0,0.1)",
+                          background: `${LT.amber}18`,
+                          border: `1px solid ${LT.amber}40`,
+                          color: LT.amber,
                           fontSize: 10,
                         }}
                       >
@@ -235,11 +319,12 @@ export default function Slide11() {
 
                   {/* BOOK NOW */}
                   <div
-                    className="w-full rounded-xl text-center font-body font-extrabold text-taxi-black py-2.5 tracking-wide"
+                    className="w-full rounded-xl text-center font-body font-extrabold py-2.5 tracking-wide"
                     style={{
-                      background: "linear-gradient(90deg,#F5B800,#FFD84D)",
+                      background: `linear-gradient(90deg, ${LT.amber}, ${LT.amberLight})`,
+                      color: "#fff",
                       fontSize: 12,
-                      boxShadow: "0 4px 16px rgba(245,184,0,0.35)",
+                      boxShadow: `0 4px 16px ${LT.amber}50`,
                     }}
                   >
                     🚕 BOOK NOW
@@ -249,25 +334,38 @@ export default function Slide11() {
 
               {/* Pulsing glow ring */}
               <div
-                className="absolute inset-0 rounded-[36px] animate-pulse-yellow pointer-events-none"
-                style={{ border: "1px solid rgba(245,184,0,0.18)" }}
+                className="absolute inset-0 rounded-[36px] animate-pulse pointer-events-none"
+                style={{ border: `1px solid ${LT.amber}28` }}
               />
 
-              {/* Floating badges */}
+              {/* Floating badge — top right */}
               <motion.div
                 animate={{ y: [0, -6, 0] }}
                 transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-                className="absolute -top-3 -right-10 px-3 py-1.5 rounded-full font-body font-bold text-taxi-black text-xs shadow-yellow"
-                style={{ background: "linear-gradient(90deg,#F5B800,#FFD84D)", whiteSpace: "nowrap" }}
+                className="absolute -top-3 -right-12 px-3 py-1.5 rounded-full font-body font-bold text-white text-xs"
+                style={{
+                  background: `linear-gradient(90deg, ${LT.amber}, ${LT.amberLight})`,
+                  boxShadow: `0 4px 16px ${LT.amber}40`,
+                  whiteSpace: "nowrap",
+                  fontSize: "clamp(10px, 1vw, 12px)",
+                }}
               >
                 🤖 AI Powered
               </motion.div>
 
+              {/* Floating badge — bottom left */}
               <motion.div
                 animate={{ y: [0, 6, 0] }}
                 transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 1 }}
-                className="absolute -bottom-3 -left-10 px-3 py-1.5 rounded-full font-body font-bold text-taxi-yellow text-xs border border-taxi-yellow/40"
-                style={{ background: "rgba(245,184,0,0.1)", whiteSpace: "nowrap" }}
+                className="absolute -bottom-3 -left-12 px-3 py-1.5 rounded-full font-body font-bold text-xs"
+                style={{
+                  background: LT.surface,
+                  border: `1.5px solid ${LT.amber}40`,
+                  color: LT.amber,
+                  boxShadow: LT.shadowMd,
+                  whiteSpace: "nowrap",
+                  fontSize: "clamp(10px, 1vw, 12px)",
+                }}
               >
                 🌍 All India
               </motion.div>
