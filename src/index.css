@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .text-gradient-yellow {
+    background: linear-gradient(135deg, #f5b800 0%, #ffd84d 50%, #f5b800 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-taxi-gradient {
+    background: linear-gradient(135deg, #f5b800 0%, #e0a800 100%);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(245, 184, 0, 0.15);
+    backdrop-filter: blur(10px);
+  }
+
+  .yellow-border-glow {
+    border: 1px solid rgba(245, 184, 0, 0.4);
+    box-shadow: 0 0 20px rgba(245, 184, 0, 0.15);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
