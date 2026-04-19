@@ -1,23 +1,23 @@
-import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 
 /* ─── LOCAL CARS (from /public folder) ─── */
 const CARS = [
   {
-    key: "innova",
-    name: "Toyota Innova Crysta",
+    key: "tavera",
+    name: "Chevrolet Tavera",
     emoji: "🚐",
     tag: "Premium MPV",
     color: "#3b82f6",
-    img: "/innova.jpg",
+    img: `${import.meta.env.BASE_URL}tavera.jpg`,
   },
   {
     key: "swift",
-    name: "Maruti Swift",
+    name: "Maruti Swift Dzire",
     emoji: "🚗",
-    tag: "Hatchback",
+    tag: "Sedan",
     color: "#ef4444",
-    img: "/dzire.png",
+    img: `${import.meta.env.BASE_URL}dzire.png`,
   },
   {
     key: "verna",
@@ -25,7 +25,7 @@ const CARS = [
     emoji: "🚘",
     tag: "Sedan",
     color: "#a3a3a3",
-    img: "/verna.jpg",
+    img: `${import.meta.env.BASE_URL}verna.jpg`,
   },
   {
     key: "creta",
@@ -33,7 +33,7 @@ const CARS = [
     emoji: "🚙",
     tag: "SUV",
     color: "#60a5fa",
-    img: "/creta.jpg",
+    img: `${import.meta.env.BASE_URL}creta.jpg`,
   },
 ];
 
@@ -58,160 +58,72 @@ const TAGS = [
 /* ─── Animation variants ─── */
 const containerVar = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
 };
 const itemVar = {
-  hidden: { opacity: 0, y: 22 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  },
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.52, ease: [0.22, 1, 0.36, 1] } },
 };
 
-/* ─── Car Carousel ─── */
-function CarCarousel() {
-  const [active, setActive] = useState(0);
-  const [imgError, setImgError] = useState({});
-  const timerRef = useRef(null);
-
-  const resetTimer = () => {
-    clearInterval(timerRef.current);
-    timerRef.current = setInterval(() => {
-      setActive((a) => (a + 1) % CARS.length);
-    }, 3000);
-  };
-
-  useEffect(() => {
-    resetTimer();
-    return () => clearInterval(timerRef.current);
-  }, []);
-
-  const go = (idx) => {
-    setActive(idx);
-    resetTimer();
-  };
-
-  const car = CARS[active];
+/* ─── Single Car Card ─── */
+function CarCard({ car, index }) {
+  const [imgError, setImgError] = React.useState(false);
 
   return (
-    <div className="w-full flex flex-col" style={{ flex: "1 1 0", minHeight: 0 }}>
-      {/* Image area */}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.45, delay: 0.1 + index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      className="relative overflow-hidden rounded-xl"
+      style={{
+        border: `1.5px solid ${car.color}40`,
+        boxShadow: `0 4px 20px ${car.color}22`,
+      }}
+    >
+      {imgError ? (
+        <div
+          className="w-full h-full flex flex-col items-center justify-center"
+          style={{
+            background: `linear-gradient(135deg, ${car.color}22, ${car.color}44)`,
+            minHeight: "80px",
+          }}
+        >
+          <span style={{ fontSize: "clamp(32px, 5vw, 52px)" }}>{car.emoji}</span>
+        </div>
+      ) : (
+        <img
+          src={car.img}
+          alt={car.name}
+          onError={() => setImgError(true)}
+          className="w-full h-full object-cover"
+          style={{ objectPosition: "center 55%", display: "block" }}
+        />
+      )}
+
+      {/* Bottom overlay */}
       <div
-        className="relative w-full overflow-hidden"
-        style={{ flex: "1 1 0", minHeight: 0 }}
-      >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            initial={{ opacity: 0, scale: 1.04, x: 30 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            exit={{ opacity: 0, scale: 0.97, x: -30 }}
-            transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute inset-0"
-          >
-            {/* Car image or emoji fallback */}
-            {imgError[car.key] ? (
-              <div
-                className="w-full h-full flex flex-col items-center justify-center"
-                style={{
-                  background: `linear-gradient(135deg, ${car.color}22, ${car.color}44)`,
-                }}
-              >
-                <div style={{ fontSize: "clamp(64px, 15vw, 130px)" }}>
-                  {car.emoji}
-                </div>
-                <div
-                  className="font-display text-taxi-black mt-2 tracking-wide"
-                  style={{ fontSize: "clamp(18px, 3.5vw, 36px)" }}
-                >
-                  {car.name}
-                </div>
-              </div>
-            ) : (
-              <img
-                src={car.img}
-                alt={car.name}
-                onError={() =>
-                  setImgError((e) => ({ ...e, [car.key]: true }))
-                }
-                className="w-full h-full"
-                style={{ objectFit: "cover", objectPosition: "center 60%" }}
-              />
-            )}
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "linear-gradient(to bottom, transparent 45%, rgba(0,0,0,0.72) 100%)",
+        }}
+      />
 
-            {/* Bottom gradient overlay */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(to bottom, rgba(245,184,0,0.06) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,0.55) 100%)",
-              }}
-            />
-
-            {/* Car name badge — bottom left */}
-            <div className="absolute bottom-3 left-3 flex items-center gap-2">
-              <div
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-body font-bold text-white"
-                style={{
-                  background: "rgba(0,0,0,0.72)",
-                  backdropFilter: "blur(8px)",
-                  border: `1px solid ${car.color}66`,
-                  fontSize: "clamp(11px, 1.8vw, 15px)",
-                }}
-              >
-                <span>{car.emoji}</span>
-                <span>{car.name}</span>
-                <span
-                  className="ml-1 px-2 py-0.5 rounded-full text-white font-semibold"
-                  style={{
-                    background: car.color,
-                    fontSize: "clamp(9px, 1.2vw, 11px)",
-                  }}
-                >
-                  {car.tag}
-                </span>
-              </div>
-            </div>
-
-            {/* Slide counter — top right */}
-            <div
-              className="absolute top-3 right-3 font-body text-white/80 text-xs px-2.5 py-1 rounded-full"
-              style={{
-                background: "rgba(0,0,0,0.52)",
-                backdropFilter: "blur(4px)",
-              }}
-            >
-              {active + 1} / {CARS.length}
-            </div>
-          </motion.div>
-        </AnimatePresence>
+      {/* Badge */}
+      <div className="absolute bottom-0 left-0 right-0 px-2 pb-2 flex items-end justify-between">
+        <div
+          className="font-body font-bold text-white leading-tight"
+          style={{ fontSize: "clamp(10px, 1.3vw, 15px)" }}
+        >
+          {car.emoji} {car.name}
+        </div>
+        <span
+          className="px-2 py-0.5 rounded-full text-white font-body font-semibold flex-shrink-0 ml-1"
+          style={{ background: car.color, fontSize: "clamp(8px, 1vw, 12px)" }}
+        >
+          {car.tag}
+        </span>
       </div>
-
-      {/* Dot indicators */}
-      <div className="flex items-center justify-center gap-2 py-2 flex-shrink-0">
-        {CARS.map((c, i) => (
-          <motion.button
-            key={c.key}
-            onClick={() => go(i)}
-            aria-label={`View ${c.name}`}
-            animate={{
-              width: i === active ? 28 : 8,
-              backgroundColor:
-                i === active ? "#111111" : "rgba(0,0,0,0.25)",
-            }}
-            transition={{ duration: 0.28 }}
-            className="h-2 rounded-full"
-            style={{
-              border: `1.5px solid ${
-                i === active ? c.color : "rgba(0,0,0,0.15)"
-              }`,
-            }}
-            whileHover={{ scale: 1.3 }}
-          />
-        ))}
-      </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -238,62 +150,80 @@ export default function Slide01() {
         variants={containerVar}
         initial="hidden"
         animate="show"
-        className="relative z-10 flex flex-col w-full h-full"
+        className="relative z-10 flex flex-col w-full h-full pt-3 px-3 pb-10 gap-2"
       >
-
         {/* ── TOP: Periyar Taxi Logo ── */}
         <motion.div
           variants={itemVar}
-          className="flex-shrink-0 flex justify-center items-center pt-3 pb-1"
+          className="flex-shrink-0 flex justify-center items-center"
         >
-          <motion.img
-            src="/periyartaxi.png"
-            alt="Periyar Taxi – The Economic Class"
-            animate={{ y: [0, -10, 0] }}
-            transition={{
-              y: { repeat: Infinity, duration: 3.5, ease: "easeInOut" },
-            }}
+          {/*
+            ✅ FIX: wrap in a plain div with mix-blend-mode: multiply.
+            This blends the white PNG background into the yellow parent,
+            making white areas fully transparent visually.
+            The wrapper must NOT have any background color set.
+          */}
+          <div
             style={{
-              height: "clamp(52px, 10vw, 96px)",
-              maxWidth: "clamp(220px, 55vw, 520px)",
-              objectFit: "contain",
-              filter: "drop-shadow(0 6px 18px rgba(0,0,0,0.28))",
+              mixBlendMode: "multiply",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <motion.img
+              src={`${import.meta.env.BASE_URL}periyartaxi.png`}
+              alt="Periyar Taxi – The Economic Class"
+              animate={{ y: [0, -8, 0] }}
+              transition={{
+                y: { repeat: Infinity, duration: 3.5, ease: "easeInOut" },
+              }}
+              style={{
+                height: "clamp(48px, 9vw, 88px)",
+                maxWidth: "clamp(200px, 52vw, 480px)",
+                objectFit: "contain",
+                display: "block",
+                filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.22))",
+              }}
+            />
+          </div>
         </motion.div>
 
-        {/* ── MIDDLE: Car Carousel ── */}
+        {/* ── MIDDLE: 2×2 Car Grid ── */}
         <motion.div
           variants={itemVar}
-          className="flex-1 min-h-0 w-full relative overflow-hidden"
+          className="flex-1 min-h-0 grid grid-cols-2 grid-rows-2 gap-2"
           style={{
-            borderTop: "2px solid rgba(0,0,0,0.10)",
-            borderBottom: "2px solid rgba(0,0,0,0.10)",
+            borderTop: "1.5px solid rgba(0,0,0,0.10)",
+            borderBottom: "1.5px solid rgba(0,0,0,0.10)",
+            paddingTop: "8px",
+            paddingBottom: "8px",
           }}
         >
-          <CarCarousel />
+          {CARS.map((car, i) => (
+            <CarCard key={car.key} car={car} index={i} />
+          ))}
         </motion.div>
 
         {/* ── BOTTOM: Stats + Tags ── */}
         <motion.div
           variants={itemVar}
-          className="flex-shrink-0 flex flex-col items-center pb-10"
-          style={{ paddingTop: "6px" }}
+          className="flex-shrink-0 flex flex-col items-center gap-1.5"
         >
           {/* Stats row */}
-          <div className="flex items-center justify-center gap-3 md:gap-8 flex-wrap px-4">
+          <div className="flex items-center justify-center gap-3 md:gap-6 flex-wrap px-2">
             {STATS.map((s, i) => (
               <React.Fragment key={s.value}>
                 <div className="text-center">
                   <div
                     className="font-display text-taxi-black leading-none"
-                    style={{ fontSize: "clamp(26px, 5.5vw, 56px)" }}
+                    style={{ fontSize: "clamp(22px, 4.5vw, 52px)" }}
                   >
                     {s.value}
                   </div>
                   <div
                     className="font-body text-taxi-black/60 font-semibold uppercase tracking-wider"
-                    style={{ fontSize: "clamp(9px, 1.4vw, 13px)" }}
+                    style={{ fontSize: "clamp(8px, 1.2vw, 13px)" }}
                   >
                     {s.label}
                   </div>
@@ -301,7 +231,7 @@ export default function Slide01() {
                 {i < STATS.length - 1 && (
                   <div
                     className="w-px bg-taxi-black/20"
-                    style={{ height: "clamp(28px, 5vw, 44px)" }}
+                    style={{ height: "clamp(24px, 4vw, 40px)" }}
                   />
                 )}
               </React.Fragment>
@@ -309,22 +239,21 @@ export default function Slide01() {
           </div>
 
           {/* Divider */}
-          <div className="w-24 h-px bg-taxi-black/25 my-2" />
+          <div className="w-20 h-px bg-taxi-black/25" />
 
           {/* Service tags */}
-          <div className="flex flex-wrap justify-center gap-1.5 px-4">
+          <div className="flex flex-wrap justify-center gap-1.5 px-2">
             {TAGS.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 rounded-full bg-taxi-black/10 text-taxi-black/75 font-body font-semibold border border-taxi-black/20"
-                style={{ fontSize: "clamp(10px, 1.6vw, 14px)" }}
+                className="px-2.5 py-0.5 rounded-full bg-taxi-black/10 text-taxi-black/75 font-body font-semibold border border-taxi-black/20"
+                style={{ fontSize: "clamp(9px, 1.4vw, 13px)" }}
               >
                 {tag}
               </span>
             ))}
           </div>
         </motion.div>
-
       </motion.div>
     </div>
   );

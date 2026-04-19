@@ -51,7 +51,7 @@ export default function Slide14() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative z-10 flex flex-col w-full h-full p-4 md:p-5 gap-3"
+        className="relative z-10 flex flex-col w-full h-full pt-4 px-4 pb-12 md:pt-5 md:px-5 md:pb-14 gap-3"
       >
         {/* ── HEADER ── */}
         <motion.div variants={item} className="flex-shrink-0">

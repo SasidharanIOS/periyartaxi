@@ -27,12 +27,12 @@ const slides = [
   Slide07,
   Slide08,
   Slide09,
-  Slide10,
   Slide11,
   Slide12,
   Slide13,
   Slide14,
   Slide15,
+  Slide10,
 ];
 
 const slideVariants = {
