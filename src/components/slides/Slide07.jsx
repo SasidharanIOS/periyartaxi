@@ -27,10 +27,10 @@ const item = {
 
 const vehicles = [
   { label: "Bus",              count: 15, img: "/touristbus.png",     accent: "#dc2626", accentBg: "#fee2e2" },
-  { label: "Mini Bus",         count: 4,  img: "/minibus.png",        accent: "#d97706", accentBg: "#fef3c7" },
+  { label: "Mini Bus",         count: 4,  img: "/minibus.jpg",        accent: "#d97706", accentBg: "#fef3c7" },
   { label: "Tempo Traveller",  count: 12, img: "/tempotraveller.png", accent: "#2563eb", accentBg: "#dbeafe" },
-  { label: "Coach Van",        count: 12, img: "/coachvan.png",       accent: "#16a34a", accentBg: "#dcfce7" },
-  { label: "Mahindra Tourist", count: 6,  img: "/mahindratourist.png",accent: "#7c3aed", accentBg: "#ede9fe" },
+  { label: "Coach Van",        count: 12, img: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&q=80",       accent: "#16a34a", accentBg: "#dcfce7" },
+  { label: "Mahindra Tourist", count: 6,  img: "/mahindratourist.jpg",accent: "#7c3aed", accentBg: "#ede9fe" },
   { label: "Urbania",          count: 8,  img: "/urbania.png",        accent: "#0d9488", accentBg: "#ccfbf1" },
 ];
 

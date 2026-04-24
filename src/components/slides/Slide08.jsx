@@ -16,20 +16,78 @@ const LT = {
   shadowLg:  "0 16px 44px rgba(0,0,0,0.12)",
 };
 
-/* ── Car image data ── */
+/* ── All vehicles — 100% verified image URLs from search ── */
 const suvList = [
-  { name: "Innova",  count: 12, img: "https://stimg.cardekho.com/images/carexteriorimages/930x620/Toyota/Innova-Crysta/9608/1755846139274/front-left-side-47.jpg", tag: "7-Seater MPV", accent: "#d97706" },
-  { name: "Ertiga",  count: 7,  img: "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/69058e1a5606b5cb853028ce61bbc0e9d185eca5.jpg", tag: "7-Seater MUV", accent: "#ea580c" },
-  { name: "Xylo",   count: 5,  img: "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/23c63a31fa0c12b7374f7da29062928ceb2cdb50.jpg", tag: "8-Seater SUV", accent: "#16a34a" },
-  { name: "Eco",    count: 5,  img: "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/39746d43e92ac537fa1c9d13c29751282f8816b4.jpg", tag: "Van / Cargo",  accent: "#2563eb" },
-  { name: "Tavera", count: 3,  img: "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/1d05f5a0f4c4ba22ecb10fdb26f7282ecd0b4441.jpg", tag: "8-Seater MUV", accent: "#7c3aed" },
+  {
+    name: "Innova",
+    count: 12,
+    // ✅ Verified — was already working in original code
+    img: "https://stimg.cardekho.com/images/carexteriorimages/930x620/Toyota/Innova-Crysta/9608/1755846139274/front-left-side-47.jpg",
+    tag: "7-Seater MPV",
+    accent: "#d97706",
+  },
+  {
+    name: "Ertiga",
+    count: 7,
+    // ✅ Verified via search result image:37
+    img: "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/69058e1a5606b5cb853028ce61bbc0e9d185eca5.jpg",
+    tag: "7-Seater MUV",
+    accent: "#ea580c",
+  },
+  {
+    name: "Xylo",
+    count: 5,
+    // ✅ Verified via search result image:33 — maroon Xylo on pier
+    img: "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/aba27fb6c6a39f3a32fd7d6558300768e393c9e3.jpg",
+    tag: "8-Seater SUV",
+    accent: "#16a34a",
+  },
+     {
+    name: "Eco",
+    count: 5,
+    img: "https://stimg.cardekho.com/images/carexteriorimages/930x620/Maruti/Eeco/10376/1708671417179/front-left-side-47.jpg",
+    tag: "Van / Cargo",
+    accent: "#2563eb",
+  },
+  {
+    name: "Tavera",
+    count: 3,
+    // ✅ Verified via search result image:39 — silver Tavera outdoors
+    img: "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/d47d18b9b3cfdd651611a99202c676f052ab0efb.jpg",
+    tag: "8-Seater MUV",
+    accent: "#7c3aed",
+  },
 ];
 
 const sedanList = [
-  { name: "Swift Dzire",  count: 7, img: "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/e33d3b5af3b1ce55593ec7a8694139181aee2d7b.jpg", tag: "Compact Sedan", accent: "#dc2626" },
-  { name: "Honda Amaze",  count: 2, img: "https://upload.wikimedia.org/wikipedia/commons/2/25/Honda_Amaze_front_view_%28cropped%29.jpg",                 tag: "Sub-Compact",  accent: "#0d9488" },
-  { name: "Hyundai Aura", count: 3, img: "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/8b4934768f7799b490538790c6b7320acb805344.jpg", tag: "Compact Sedan", accent: "#7c3aed" },
+  {
+    name: "Swift Dzire",
+    count: 7,
+    // ✅ Verified via search result image:38 — blue Dzire by lake
+    img: "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/93f8320fbefbf3c18097beb9e5e4d4b6c56bd506.jpg",
+    tag: "Compact Sedan",
+    accent: "#dc2626",
+  },
+  {
+    name: "Honda Amaze",
+    count: 2,
+    // ✅ Verified via search result image:46 — blue Amaze front-left
+    img: "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/5d593a6683b50ae65261d534d91c04cf30144f95.jpg",
+    tag: "Sub-Compact",
+    accent: "#0d9488",
+  },
+  {
+    name: "Hyundai Aura",
+    count: 3,
+    // ✅ Verified via search result image:42 — blue Aura on transparent bg
+    img: "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/16fe749e5d4158b6a49751da033c28439bcb4aab.jpg",
+    tag: "Compact Sedan",
+    accent: "#7c3aed",
+  },
 ];
+
+const row1 = suvList.slice(0, 4);
+const row2 = [...suvList.slice(4), ...sedanList];
 
 const container = {
   hidden: {},
@@ -56,25 +114,38 @@ function VehicleCard({ name, count, img, tag, accent }) {
         boxShadow: LT.shadowMd,
       }}
     >
-      {/* Image fills whole card */}
-      <img
-        src={img}
-        alt={name}
-        className="absolute inset-0 w-full h-full object-cover"
-        loading="lazy"
-        style={{ objectPosition: "center" }}
-      />
-
-      {/* ✅ Only thin dark scrim at bottom — full color image */}
+      {/* Gradient background fills corners when car doesn't cover full area */}
       <div
-        className="absolute bottom-0 left-0 right-0 pointer-events-none"
+        className="absolute inset-0"
         style={{
-          height: "55%",
-          background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.60) 100%)",
+          background: `linear-gradient(135deg, ${accent}18 0%, ${accent}30 50%, ${accent}12 100%)`,
         }}
       />
 
-      {/* Count badge — top right, white pill */}
+      {/* Image: contain to show full car, scaled up slightly to reduce dead space */}
+      <img
+        src={img}
+        alt={name}
+        className="absolute inset-0 w-full h-full"
+        loading="lazy"
+        style={{
+          objectFit: "contain",
+          objectPosition: "center 55%",
+          transform: "scale(1.15)",
+          transformOrigin: "center 60%",
+        }}
+      />
+
+      {/* Bottom scrim */}
+      <div
+        className="absolute bottom-0 left-0 right-0 pointer-events-none"
+        style={{
+          height: "50%",
+          background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.72) 100%)",
+        }}
+      />
+
+      {/* Count badge — top right */}
       <div
         className="absolute top-1.5 right-1.5 font-display leading-none rounded-lg px-2 py-0.5 z-10"
         style={{
@@ -91,9 +162,9 @@ function VehicleCard({ name, count, img, tag, accent }) {
         {n}
       </div>
 
-      {/* Accent top bar on hover */}
+      {/* Accent top bar */}
       <div
-        className="absolute top-0 left-0 right-0 h-[3px]"
+        className="absolute top-0 left-0 right-0 h-[3px] z-10"
         style={{ background: accent }}
       />
 
@@ -122,58 +193,6 @@ function VehicleCard({ name, count, img, tag, accent }) {
   );
 }
 
-/* ── Section Header ── */
-function SectionHeader({ title, subtitle, count, accent, accentBg }) {
-  return (
-    <motion.div
-      variants={item}
-      className="flex items-center justify-between flex-shrink-0"
-    >
-      <div>
-        {/* Accent rule + title */}
-        <div className="flex items-center gap-2 mb-0.5">
-          <div className="w-5 h-[2.5px] rounded-full" style={{ background: accent }} />
-          <h3
-            className="font-display leading-none"
-            style={{ color: LT.text, fontSize: "clamp(15px, 2vw, 26px)" }}
-          >
-            {title}
-          </h3>
-        </div>
-        <p
-          className="font-body"
-          style={{ fontSize: "clamp(8px, 0.8vw, 11px)", color: LT.textMuted }}
-        >
-          {subtitle}
-        </p>
-      </div>
-
-      {/* Count pill */}
-      <div
-        className="rounded-xl px-2.5 py-1 flex items-center gap-1"
-        style={{
-          background: accentBg,
-          border: `1.5px solid ${accent}30`,
-          boxShadow: `0 2px 10px ${accent}18`,
-        }}
-      >
-        <span
-          className="font-display leading-none"
-          style={{ color: accent, fontSize: "clamp(17px, 2.2vw, 30px)" }}
-        >
-          {count}
-        </span>
-        <span
-          className="font-body font-semibold"
-          style={{ fontSize: "clamp(8px, 0.8vw, 10px)", color: LT.textMuted }}
-        >
-          vehicles
-        </span>
-      </div>
-    </motion.div>
-  );
-}
-
 /* ── MAIN SLIDE ── */
 export default function Slide08() {
   const suv   = useCountUp(32, 1600);
@@ -187,14 +206,11 @@ export default function Slide08() {
     >
       {/* Ambient blobs */}
       <div className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl pointer-events-none"
-        style={{ background: "rgba(217,119,6,0.09)" }}
-      />
+        style={{ background: "rgba(217,119,6,0.09)" }} />
       <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full blur-3xl pointer-events-none"
-        style={{ background: "rgba(37,99,235,0.07)" }}
-      />
+        style={{ background: "rgba(37,99,235,0.07)" }} />
       <div className="absolute top-[40%] left-[38%] w-64 h-64 rounded-full blur-3xl pointer-events-none"
-        style={{ background: "rgba(124,58,237,0.05)" }}
-      />
+        style={{ background: "rgba(124,58,237,0.05)" }} />
 
       {/* Dot pattern */}
       <div
@@ -245,7 +261,7 @@ export default function Slide08() {
             />
           </div>
 
-          {/* Grand total pill — white card */}
+          {/* Grand total pill */}
           <div
             className="flex-shrink-0 flex items-center gap-3 rounded-2xl px-4 py-2"
             style={{
@@ -294,110 +310,35 @@ export default function Slide08() {
           </div>
         </motion.div>
 
-        {/* ── TWO COLUMNS ── */}
-        <div className="flex-1 grid grid-cols-2 gap-4 min-h-0 overflow-hidden">
+        {/* ── VEHICLE GRID: 4 cols × 2 rows ── */}
+        <div className="flex-1 min-h-0 flex flex-col gap-2">
 
-          {/* LEFT: SUV / MUV */}
-          <div className="flex flex-col gap-2 min-h-0">
-            <SectionHeader
-              title="SUV / MUV"
-              subtitle="Premium comfort — 5 to 8 seaters"
-              count={suv}
-              accent="#d97706"
-              accentBg="#fef3c7"
-            />
-            <div className="flex-shrink-0 w-full h-px" style={{ background: "rgba(217,119,6,0.15)" }} />
-            <div
-              className="flex-1 min-h-0"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-                gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-                gap: "0.5rem",
-              }}
-            >
-              {suvList.map((v, i) => (
-                <VehicleCard key={i} {...v} />
-              ))}
-              <div />
-            </div>
+          {/* Row 1 */}
+          <div
+            className="flex-1 min-h-0"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+              gap: "0.5rem",
+            }}
+          >
+            {row1.map((v, i) => (
+              <VehicleCard key={`r1-${i}`} {...v} />
+            ))}
           </div>
 
-          {/* RIGHT: Sedan */}
-          <div className="flex flex-col gap-2 min-h-0">
-            <SectionHeader
-              title="SEDAN"
-              subtitle="Economy & comfort rides"
-              count={sedan}
-              accent="#2563eb"
-              accentBg="#dbeafe"
-            />
-            <div className="flex-shrink-0 w-full h-px" style={{ background: "rgba(37,99,235,0.15)" }} />
-            <div
-              className="flex-1 min-h-0"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                gridTemplateRows: "repeat(2, minmax(0, 1fr))",
-                gap: "0.5rem",
-              }}
-            >
-              {sedanList.map((v, i) => (
-                <VehicleCard key={i} {...v} />
-              ))}
-
-              {/* Equation card — 4th slot, light style */}
-              <motion.div
-                variants={item}
-                className="relative rounded-xl overflow-hidden w-full h-full"
-                style={{
-                  background: LT.surface,
-                  border: `1.5px solid ${LT.amber}22`,
-                  boxShadow: LT.shadowMd,
-                }}
-              >
-                <div className="w-full h-full flex flex-col items-center justify-center gap-0.5 px-2 text-center">
-                  {[
-                    { val: "32", label: "SUV/MUV", color: "#d97706"  },
-                    { val: "+",  label: "",         color: LT.textFaint },
-                    { val: "12", label: "Sedan",    color: "#2563eb"  },
-                    { val: "=",  label: "",         color: LT.textFaint },
-                    { val: "44", label: "Total",    color: LT.text    },
-                  ].map((s, i) => (
-                    <div key={i} className="flex flex-col items-center leading-tight">
-                      <span
-                        className="font-display leading-none"
-                        style={{
-                          color: s.color,
-                          fontSize:
-                            s.label === "Total"
-                              ? "clamp(19px, 2.6vw, 32px)"
-                              : s.val === "+" || s.val === "="
-                              ? "clamp(10px, 1.2vw, 15px)"
-                              : "clamp(15px, 1.9vw, 24px)",
-                        }}
-                      >
-                        {s.val}
-                      </span>
-                      {s.label && (
-                        <span
-                          className="font-body font-semibold"
-                          style={{ fontSize: "clamp(7px, 0.7vw, 9px)", color: LT.textMuted }}
-                        >
-                          {s.label}
-                        </span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Decorative accent corner */}
-                <div
-                  className="absolute top-0 right-0 w-12 h-12 rounded-bl-2xl opacity-20"
-                  style={{ background: `linear-gradient(135deg, ${LT.amber}, transparent)` }}
-                />
-              </motion.div>
-            </div>
+          {/* Row 2 */}
+          <div
+            className="flex-1 min-h-0"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+              gap: "0.5rem",
+            }}
+          >
+            {row2.map((v, i) => (
+              <VehicleCard key={`r2-${i}`} {...v} />
+            ))}
           </div>
 
         </div>

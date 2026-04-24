@@ -7,6 +7,7 @@ import {
 import { FaTaxi } from "react-icons/fa";
 import useCountUp from "../../hooks/useCountUp";
 
+
 /* ─── Light Theme Tokens ─── */
 const LT = {
   bg:        "#f5f3ee",
@@ -22,6 +23,7 @@ const LT = {
   shadowLg:  "0 16px 44px rgba(0,0,0,0.13)",
 };
 
+
 const container = {
   hidden: {},
   show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
@@ -31,11 +33,12 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.52 } },
 };
 
+
 const fundUsage = [
   {
     icon: <MdPhoneAndroid size={22} />,
     label: "App Development",
-    amount: "₹3,20,000",
+    amount: "₹4,00,000",
     pct: 40,
     note: "Android + iOS (Customer, Driver, Admin)",
     accent: "#d97706",
@@ -44,7 +47,7 @@ const fundUsage = [
   {
     icon: <MdBusiness size={22} />,
     label: "Cloud Infrastructure",
-    amount: "₹96,000",
+    amount: "₹1,20,000",
     pct: 12,
     note: "AWS / Firebase servers, GPS API, SMS gateway",
     accent: "#2563eb",
@@ -53,7 +56,7 @@ const fundUsage = [
   {
     icon: <MdPeople size={22} />,
     label: "Driver Onboarding",
-    amount: "₹80,000",
+    amount: "₹1,00,000",
     pct: 10,
     note: "Training, verification, app setup for 100 drivers",
     accent: "#16a34a",
@@ -62,7 +65,7 @@ const fundUsage = [
   {
     icon: <MdCampaign size={22} />,
     label: "Marketing & Launch",
-    amount: "₹1,60,000",
+    amount: "₹2,00,000",
     pct: 20,
     note: "Digital ads, local print, referral bonuses",
     accent: "#dc2626",
@@ -71,7 +74,7 @@ const fundUsage = [
   {
     icon: <MdSecurity size={22} />,
     label: "Working Capital",
-    amount: "₹1,44,000",
+    amount: "₹1,80,000",
     pct: 18,
     note: "Operations, salaries & contingency for 6 months",
     accent: "#7c3aed",
@@ -79,12 +82,12 @@ const fundUsage = [
   },
 ];
 
+
 const loanDetails = [
   { k: "Tenure",     v: "36 Months",                accent: "#2563eb" },
   { k: "Purpose",    v: "Mobile App + Marketing",   accent: "#d97706" },
-  { k: "Repayment",  v: "EMI from Month 4",         accent: "#16a34a" },
-  { k: "Collateral", v: "Business Assets + Guarantor", accent: "#7c3aed" },
 ];
+
 
 function DonutArc({ pct, accent, offset, r = 38 }) {
   const circ = 2 * Math.PI * r;
@@ -106,8 +109,10 @@ function DonutArc({ pct, accent, offset, r = 38 }) {
   );
 }
 
+
 export default function Slide15() {
-  const loanAmt = useCountUp(8, 1800);
+  const loanAmt = useCountUp(10, 1800);
+
 
   const arcs = [];
   let cumulative = 0;
@@ -116,6 +121,7 @@ export default function Slide15() {
     arcs.push({ ...f, offset: -(cumulative / 100) * circ });
     cumulative += f.pct;
   });
+
 
   return (
     <div
@@ -133,6 +139,7 @@ export default function Slide15() {
         style={{ background: "radial-gradient(circle, rgba(22,163,74,0.07) 0%, transparent 70%)", filter: "blur(60px)" }}
       />
 
+
       {/* Dot pattern */}
       <div
         className="absolute inset-0 opacity-40 pointer-events-none"
@@ -141,6 +148,7 @@ export default function Slide15() {
           backgroundSize: "28px 28px",
         }}
       />
+
 
       <motion.div
         variants={container}
@@ -181,11 +189,14 @@ export default function Slide15() {
           />
         </motion.div>
 
+
         {/* ── BODY GRID ── */}
         <div className="flex-1 grid grid-cols-5 gap-3 min-h-0">
 
+
           {/* ── LEFT (2/5) ── */}
           <motion.div variants={item} className="col-span-2 flex flex-col gap-3 min-h-0">
+
 
             {/* Loan amount card */}
             <div
@@ -202,6 +213,7 @@ export default function Slide15() {
                 style={{ background: `linear-gradient(90deg, ${LT.amber}, ${LT.amberLight})` }}
               />
 
+
               {/* Soft radial glow */}
               <div
                 className="absolute top-0 left-0 right-0 h-40 pointer-events-none"
@@ -210,12 +222,14 @@ export default function Slide15() {
                 }}
               />
 
+
               <p
                 className="font-body uppercase tracking-widest text-center mb-1 mt-1 relative z-10"
                 style={{ fontSize: "clamp(9px, 1vw, 12px)", color: LT.textFaint }}
               >
                 Loan Amount Requested
               </p>
+
 
               <div
                 className="font-display leading-none text-center relative z-10"
@@ -228,12 +242,14 @@ export default function Slide15() {
                 ₹{loanAmt}L
               </div>
 
+
               <p
                 className="font-body text-center mt-1 relative z-10"
                 style={{ fontSize: "clamp(10px, 1vw, 13px)", color: LT.textFaint }}
               >
-                (₹8,00,000 — Eight Lakhs Only)
+                (₹10,00,000 — Ten Lakhs Only)
               </p>
+
 
               <div
                 className="mt-3 flex flex-col gap-2 pt-3 relative z-10"
@@ -262,6 +278,7 @@ export default function Slide15() {
                 ))}
               </div>
             </div>
+
 
             {/* Donut chart card */}
             <div
@@ -297,6 +314,7 @@ export default function Slide15() {
                   ))}
                 </svg>
 
+
                 {/* Legend */}
                 <div className="flex flex-col gap-1.5 flex-1">
                   {fundUsage.map((f, i) => (
@@ -319,8 +337,10 @@ export default function Slide15() {
             </div>
           </motion.div>
 
+
           {/* ── RIGHT (3/5) ── */}
           <div className="col-span-3 flex flex-col gap-3 min-h-0">
+
 
             {/* Fund Utilisation Breakdown */}
             <motion.div
@@ -349,6 +369,7 @@ export default function Slide15() {
                 </span>
               </div>
 
+
               {/* Rows */}
               <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
                 {fundUsage.map((f, i) => (
@@ -376,6 +397,7 @@ export default function Slide15() {
                         }
                       }}
                     />
+
 
                     <div className="flex items-center justify-between mb-1.5">
                       <div className="flex items-center gap-2.5">
@@ -407,6 +429,7 @@ export default function Slide15() {
                         </div>
                       </div>
 
+
                       {/* Amount pill */}
                       <span
                         className="font-body font-bold flex-shrink-0 ml-2 px-2.5 py-0.5 rounded-full"
@@ -420,6 +443,7 @@ export default function Slide15() {
                         {f.amount}
                       </span>
                     </div>
+
 
                     {/* Progress bar */}
                     <div
@@ -438,6 +462,7 @@ export default function Slide15() {
                 ))}
               </div>
             </motion.div>
+
 
             {/* Credibility strip */}
             <motion.div variants={item} className="grid grid-cols-2 gap-3 flex-shrink-0">
@@ -472,6 +497,7 @@ export default function Slide15() {
                   </div>
                 </div>
               </div>
+
 
               {/* Repayment capacity */}
               <div

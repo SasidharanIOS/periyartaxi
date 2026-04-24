@@ -39,8 +39,8 @@ const contacts = [
   {
     icon: <FaWhatsapp size={24} />,
     label: "WhatsApp",
-    value: "80123 57078",
-    link: "https://wa.me/918012357078",
+    value: "80123 57078, 94440 22287",
+    link: "https://wa.me/918012357078 , https://wa.me/919444022287",
     iconColor: "#16a34a",
     iconBg:    "#dcfce7",
     accent:    "#16a34a",
@@ -48,8 +48,8 @@ const contacts = [
   {
     icon: <MdEmail size={24} />,
     label: "Email",
-    value: "periyaselvaraj@gmail.com",
-    link: "mailto:periyaselvaraj@gmail.com",
+    value: "periyarcalltaxi@gmail.com",
+    link: "mailto:periyarcalltaxi@gmail.com",
     iconColor: "#dc2626",
     iconBg:    "#fee2e2",
     accent:    "#dc2626",
@@ -57,7 +57,7 @@ const contacts = [
   {
     icon: <MdLocationOn size={24} />,
     label: "Address",
-    value: "6, Nengaiyar Thottam, Kolumpalayam,\nPoolpannai Road, Erode – 638002",
+    value: "No.6, Vengaiyar Thottam, Near Amirtha Paal Pannai,\nKolampalayam, Erode – 638002",
     link: "https://maps.google.com/?q=Erode,Tamil+Nadu",
     iconColor: "#2563eb",
     iconBg:    "#dbeafe",

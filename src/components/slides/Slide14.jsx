@@ -30,7 +30,7 @@ const item = {
 const revenues = [
   { label: "Commission per ride",   val: "₹30–80",   note: "12–15% of fare",      accent: "#d97706", accentBg: "#fef3c7" },
   { label: "Monthly Subscriptions", val: "₹499/mo",  note: "Corporate accounts",   accent: "#2563eb", accentBg: "#dbeafe" },
-  { label: "Driver Listing Fee",    val: "₹999/yr",  note: "App onboarding",       accent: "#7c3aed", accentBg: "#ede9fe" },
+  { label: "Vehicle Listing Fee",    val: "₹3000/yr",  note: "App onboarding",       accent: "#7c3aed", accentBg: "#ede9fe" },
   { label: "Valet/Event Packages",  val: "₹5K–50K",  note: "Per event",            accent: "#16a34a", accentBg: "#dcfce7" },
   { label: "In-app Advertisement",  val: "₹10K+/mo", note: "Local businesses",     accent: "#0d9488", accentBg: "#ccfbf1" },
 ];

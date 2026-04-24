@@ -41,7 +41,7 @@ const FLEET_DATA = [
     accentDim: "rgba(217,119,6,0.08)",
     img: VEHICLE_IMAGES.direct,
     imgAlt: "Direct Control Vehicles",
-    badge: "INNOVA / SUV",
+    badge: "SEDAN / MINI",
     vehicles: ["Innova ×12", "Ertiga ×7", "Xylo ×5"],
   },
   {
@@ -54,7 +54,7 @@ const FLEET_DATA = [
     accentDim: "rgba(37,99,235,0.07)",
     img: VEHICLE_IMAGES.attachment,
     imgAlt: "Attachment Vehicles",
-    badge: "CRETA / SEDAN",
+    badge: "SUV / INNOVA",
     vehicles: ["Creta", "Swift Dzire ×7", "Amaze ×2", "Aura ×3"],
   },
   {
@@ -67,7 +67,7 @@ const FLEET_DATA = [
     accentDim: "rgba(124,58,237,0.07)",
     img: VEHICLE_IMAGES.tieup,
     imgAlt: "Tie-Up Vehicles – Bus / Traveller",
-    badge: "BUS / TRAVELLER",
+    badge: "URBANIA / TRAVELLER",
     vehicles: ["Bus ×15", "Tempo ×12", "Coach ×12", "Urbania ×8"],
   },
 ];

@@ -9,7 +9,7 @@ const CARS = [
     emoji: "🚐",
     tag: "Premium MPV",
     color: "#3b82f6",
-    img: `${import.meta.env.BASE_URL}tavera.jpg`,
+    img: `${import.meta.env.BASE_URL}chevorlet1.png`,
   },
   {
     key: "swift",
@@ -17,23 +17,23 @@ const CARS = [
     emoji: "🚗",
     tag: "Sedan",
     color: "#ef4444",
-    img: `${import.meta.env.BASE_URL}dzire.png`,
+    img: `${import.meta.env.BASE_URL}dezire.png`,
   },
   {
-    key: "verna",
-    name: "Hyundai Verna",
+    key: "aura",
+    name: "Hyundai Aura",
     emoji: "🚘",
     tag: "Sedan",
     color: "#a3a3a3",
-    img: `${import.meta.env.BASE_URL}verna.jpg`,
+    img: `${import.meta.env.BASE_URL}aura.jpg`,
   },
   {
-    key: "creta",
-    name: "Hyundai Creta",
+    key: "innova",
+    name: "Innova Crysta",
     emoji: "🚙",
     tag: "SUV",
     color: "#60a5fa",
-    img: `${import.meta.env.BASE_URL}creta.jpg`,
+    img: `${import.meta.env.BASE_URL}innova.jpg`,
   },
 ];
 
@@ -78,6 +78,7 @@ function CarCard({ car, index }) {
       style={{
         border: `1.5px solid ${car.color}40`,
         boxShadow: `0 4px 20px ${car.color}22`,
+        minHeight: "clamp(120px, 18vw, 200px)",
       }}
     >
       {imgError ? (
@@ -157,12 +158,6 @@ export default function Slide01() {
           variants={itemVar}
           className="flex-shrink-0 flex justify-center items-center"
         >
-          {/*
-            ✅ FIX: wrap in a plain div with mix-blend-mode: multiply.
-            This blends the white PNG background into the yellow parent,
-            making white areas fully transparent visually.
-            The wrapper must NOT have any background color set.
-          */}
           <div
             style={{
               mixBlendMode: "multiply",

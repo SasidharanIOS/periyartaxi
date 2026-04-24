@@ -63,16 +63,16 @@ const stats = [
 
 const CAR_IMGS = {
   innova: `/innova.jpg`,
-  swift:  `/dzire.png`,
-  verna:  `/verna.jpg`,
-  creta:  `/creta.jpg`,
+  swift:  `/dezire.png`,
+  aura:  `/aura.jpg`,
+  creta:  `/ertiga.png`,
 };
 
 const carData = [
   { key: "innova", name: "Toyota Innova Crysta", color: "#1e40af", accent: "#3b82f6" },
   { key: "swift",  name: "Maruti Swift Dzire",   color: "#991b1b", accent: "#ef4444" },
-  { key: "verna",  name: "Hyundai Verna",        color: "#1d4ed8", accent: "#6366f1" },
-  { key: "creta",  name: "Hyundai Creta",        color: "#166534", accent: "#22c55e" },
+  { key: "aura",  name: "Hyundai Aura",        color: "#1d4ed8", accent: "#6366f1" },
+  { key: "creta",  name: "Maruti Ertiga",        color: "#166534", accent: "#22c55e" },
 ];
 
 /* ─── Light theme tokens ─── */
@@ -212,6 +212,7 @@ export default function Slide02() {
         initial="hidden"
         animate="show"
         className="relative z-10 flex-1 grid grid-cols-2 min-h-0"
+        
       >
         {/* ═══ LEFT ═══ */}
         <div className="flex flex-col justify-center px-10 md:px-14 py-7 gap-4">
